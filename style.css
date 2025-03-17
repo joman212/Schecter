@@ -2,7 +2,7 @@ body {
     font-family: 'Noto Sans', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #0D0D0D;
+    background-color: black;
     color: white;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
@@ -78,10 +78,26 @@ nav ul li a {
 .details ul {
     list-style: none;
     padding: 0;
+    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 .details ul li {
     font-size: 1.2rem;
-    margin-bottom: 5px;
+    padding: 8px;
+    background: #4B4E50;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.price {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #E76E24;
+    margin: 10px 0;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
+    -2px -2px 5px #D22730;
 }
 .guitar-list {
     text-align: center;
@@ -108,6 +124,7 @@ nav ul li a {
 .featured {
     text-align: center;
     padding: 2rem;
+    margin-top: 2rem;
 }
 
 .btn {
@@ -154,6 +171,27 @@ nav ul li a {
 .about h2 {
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
     -2px -2px 5px #26408B;
+}
+
+.reviews {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    margin-top: 30px;
+    border-radius: 10px;
+}
+
+.reviews h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.review {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-size: 1.1rem;
 }
 footer {
     text-align: center;
