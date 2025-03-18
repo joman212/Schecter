@@ -454,6 +454,18 @@ nav ul li a {
     border-radius: 10px;
 }
 
+.gates {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.gates img {
+    width: 150px;
+    height: auto;
+    filter: brightness(0) invert(1);
+}
+
 #img1:checked ~ .main-image img {
     content: url("synyster-custom-s.avif");
 }
