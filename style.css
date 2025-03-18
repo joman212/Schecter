@@ -21,11 +21,33 @@ body {
 }
 
 a {
-    transition: color 0.3s ease-in-out;
+    transition: color 0.3s ease-in-out transform 0.2s;
 }
 
 a:hover {
     color: #D22730;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .video-start {
@@ -42,6 +64,22 @@ a:hover {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.main-text, .product-details, .bio {
+    animation: slideInLeft 1s ease-in-out;
+}
+
+.video-container, .reviews {
+    animation: slideInRight 1s ease-in-out;
+}
+
+.guitar img, .bio-images img {
+    transition: transform 0.3s ease-in-out;
+}
+
+.guitar img:hover, .bio-images img:hover {
+    transform: scale(1.1);
 }
 
 header {
@@ -369,6 +407,7 @@ nav ul li a {
     width: 100%;
     max-width: 450px;
     border-radius: 10px;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .thumbnails {
@@ -381,17 +420,28 @@ nav ul li a {
     cursor: pointer;
 }
 
+.thumbnails img:hover {
+    transform: scale(1.1);
+}
+
+.fade {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
 .thumbnails img {
     width: 60px;
     height: auto;
     border-radius: 5px;
     cursor: pointer;
+    transition: transform 0.3s ease-in-out;
 }
 
 .video-container {
     text-align: center;
     padding: 20px;
 }
+
 .video-container h2 {
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
     -2px -2px 5px #D22730;
