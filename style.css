@@ -6,6 +6,7 @@ body {
     color: white;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
+
 .video-start {
     position: absolute;
     top: 0;
@@ -15,11 +16,13 @@ body {
     overflow: hidden;
     z-index: -1;
 }
+
 .video-start video {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
+
 header {
     display: flex;
     justify-content: space-between;
@@ -27,16 +30,19 @@ header {
     background: #1A2238;
     padding: 15px 50px;
 }
+
 nav ul {
     list-style: none;
     display: flex;
     gap: 15px;
 }
+
 nav ul li a {
     text-decoration: none;
     color: white;
     font-weight: bold;
 }
+
 .main-text {
     text-align: center;
     padding: 10rem 2rem;;
@@ -44,15 +50,18 @@ nav ul li a {
     color: #E5E5E5;
     z-index: 1;
 }
+
 .main-text h1 {
     font-size: 3rem;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
     -2px -2px 5px #26408B;
 }
+
 .main-text p {
     font-size: 1.2rem;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
+
 .product-details {
     display: flex;
     align-items: center;
@@ -62,19 +71,23 @@ nav ul li a {
     flex-wrap: wrap;
     text-align: left;
 }
+
 .product-details img {
     max-width: 400px;
     border-radius: 10px;
 }
+
 .details {
     max-width: 500px;
 }
+
 .details h1 {
     font-size: 2.5rem;
     color: #E5E5E5;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
     -2px -2px 5px #B22222;
 }
+
 .details ul {
     list-style: none;
     padding: 0;
@@ -82,6 +95,7 @@ nav ul li a {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
+
 .details ul li {
     font-size: 1.2rem;
     padding: 8px;
@@ -91,6 +105,7 @@ nav ul li a {
     align-items: center;
     gap: 1rem;
 }
+
 .price {
     font-size: 1.3rem;
     font-weight: bold;
@@ -99,9 +114,11 @@ nav ul li a {
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
     -2px -2px 5px #D22730;
 }
+
 .guitar-list {
     text-align: center;
 }
+
 .guitar-grid {
     display: flex;
     justify-content: center;
@@ -135,6 +152,7 @@ nav ul li a {
     text-decoration: none;
     border-radius: 5px;
 }
+
 .about {
     text-align: center;
     padding: 4rem 2rem;
@@ -142,6 +160,7 @@ nav ul li a {
     margin: auto;
     color: white;
 }
+
 .band-image {
     flex: 1;
     max-width: 45%;
@@ -193,6 +212,121 @@ nav ul li a {
     border-radius: 8px;
     font-size: 1.1rem;
 }
+.cart-img img {
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: cover;
+}
+
+.cart-count {
+    font-weight: bold;
+    color: #D4AF37;
+}
+
+.cart {
+    text-align: center;
+    padding: 2rem;
+}
+.checkout {
+    text-align: center;
+    padding: 2rem;
+}
+.signup {
+    text-align: center;
+    padding: 2rem;
+}
+
+.signup form {
+    max-width: 400px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.signup input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #222;
+    min-width: 200px;
+    top: 100%;
+    left: 0;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+
+.dropdown-menu li {
+    list-style: none;
+}
+
+.dropdown-menu li a {
+    display: block;
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #d50000;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.menu-toggle {
+    display: none;
+}
+
+.menu-icon {
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    display: none;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .menu-icon {
+        display: block;
+    }
+
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: #222;
+        flex-direction: column;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .nav-menu li {
+        padding: 10px;
+    }
+    #menu-toggle:checked + .menu-icon + nav .nav-menu {
+        display: flex;
+    }
+}
+
 footer {
     text-align: center;
     margin-top: 2rem;
