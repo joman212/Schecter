@@ -25,7 +25,7 @@
             <li><a href="#">Contact</a></li>
             <li><a href="signup.html" class="btn">Sign Up</a></li>
             <li><a href="cart.html">
-                <div class="cart-img"><img src="cart.png"> (<span id="cart-count">0</span>)
+                <div class="cart-img"><img src="cart.png">
                 </div>
             </a></li>
             </ul>
@@ -34,7 +34,7 @@
 
 <section class="signup">
     <h1>Create an Account</h1>
-    <form>
+    <form action="thank.html">
         <label for="name">Full Name:</label>
         <input type="text" id="name" required>
 
@@ -43,15 +43,9 @@
 
         <label for="password">Password:</label>
         <input type="password" id="password" required>
-
-        <button type="submit" class="btn">Sign Up</button>
-    </form>
+    <button type="submit" class="btn">Sign Up</button>
+</form>
 </section>
-
-<script>
-    let cartCount = localStorage.getItem("cartCount") || 0;
-    document.getElementById("cart-count").innerText = cartCount;
-</script>
 
 </body>
 </html>
