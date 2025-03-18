@@ -54,7 +54,7 @@ nav ul li a {
 .main-text h1 {
     font-size: 3rem;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
-    -2px -2px 5px #26408B;
+    -2px -2px 5px #D22730;
 }
 
 .main-text p {
@@ -154,7 +154,7 @@ nav ul li a {
 }
 
 .about {
-    text-align: center;
+    text-align: left;
     padding: 4rem 2rem;
     max-width: 800px;
     margin: auto;
@@ -164,7 +164,7 @@ nav ul li a {
 .band-image {
     flex: 1;
     max-width: 45%;
-    text-align: center;
+    text-align: left;
 }
 
 .band-image img {
@@ -183,11 +183,55 @@ nav ul li a {
     font-size: 1.2rem;
     margin: 10px 0;
 }
-.about h1 {
+.about h2 {
+    color: #D4AF37;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
     -2px -2px 5px #26408B;
 }
-.about h2 {
+
+
+.bio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    background: #111;
+    color: white;
+}
+.bio-images {
+    display: flex;
+    gap: 15px;
+    max-width: 900px;
+}
+
+.bio-images img {
+    width: 33%;
+    max-width: 250px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.bio-container {
+    display: flex;
+    gap: 30px;
+    max-width: 900px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.bio-container img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 10px;
+}
+
+.bio-text {
+    flex: 1;
+    text-align: left;
+}
+
+.bio-text h2 {
+    color: #D4AF37;
+    margin-top: 20px;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
     -2px -2px 5px #26408B;
 }
@@ -234,6 +278,8 @@ nav ul li a {
 .signup {
     text-align: center;
     padding: 2rem;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
+    -2px -2px 5px #D22730;
 }
 
 .signup form {
@@ -278,53 +324,151 @@ nav ul li a {
 }
 
 .dropdown-menu li a:hover {
-    background-color: #d50000;
+    background-color: #D22730;
 }
 
 .dropdown:hover .dropdown-menu {
     display: block;
 }
 
-#menu-toggle {
-    display: none;
-}
-
-.menu-icon {
-    font-size: 24px;
-    color: white;
-    cursor: pointer;
-    display: none;
-}
-
-.nav-menu {
-    list-style: none;
+.image-gallery {
     display: flex;
-    gap: 20px;
+    flex-direction: column;
+    align-items: center;
 }
 
-@media (max-width: 768px) {
-    .menu-icon {
-        display: block;
-    }
+.image-gallery input {
+    display: none;
+}
 
-    .nav-menu {
-        display: none;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        width: 100%;
-        background: #222;
-        flex-direction: column;
-        text-align: center;
-        padding: 10px 0;
-    }
+.main-image img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+}
 
-    .nav-menu li {
-        padding: 10px;
-    }
-    #menu-toggle:checked + .menu-icon + nav .nav-menu {
-        display: flex;
-    }
+.thumbnails {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.thumbnails label {
+    cursor: pointer;
+}
+
+.thumbnails img {
+    width: 80px;
+    height: auto;
+    border-radius: 5px;
+}
+
+#img1:checked ~ .main-image img {
+    content: url("synyster-custom-s.avif");
+}
+
+#img2:checked ~ .main-image img {
+    content: url("synyster-custom-s2.avif");
+}
+
+#img3:checked ~ .main-image img {
+    content: url("synyster-custom-s3.avif");
+}
+
+#img4:checked ~ .main-image img {
+    content: url("synyster-custom-s4.avif");
+}
+
+#img5:checked ~ .main-image img {
+    content: url("synyster-custom.avif");
+}
+
+#img6:checked ~ .main-image img {
+    content: url("synyster-custom2.avif");
+}
+
+#img7:checked ~ .main-image img {
+    content: url("synyster-custom3.avif");
+}
+
+#img8:checked ~ .main-image img {
+    content: url("synyster-custom4.avif");
+}
+
+#img9:checked ~ .main-image img {
+    content: url("synyster-custom-headless.avif");
+}
+
+#img10:checked ~ .main-image img {
+    content: url("synyster-custom-headless2.avif");
+}
+
+#img11:checked ~ .main-image img {
+    content: url("synyster-custom-headless3.avif");
+}
+
+#img12:checked ~ .main-image img {
+    content: url("synyster-custom-headless4.avif");
+}
+
+#img13:checked ~ .main-image img {
+    content: url("synyster-acoustic.avif");
+}
+
+#img14:checked ~ .main-image img {
+    content: url("synyster-acoustic2.avif");
+}
+
+#img15:checked ~ .main-image img {
+    content: url("synyster-acoustic3.avif");
+}
+
+#img16:checked ~ .main-image img {
+    content: url("synyster-acoustic4.avif");
+}
+
+#img17:checked ~ .main-image img {
+    content: url("synyster-fr.avif");
+}
+
+#img18:checked ~ .main-image img {
+    content: url("synyster-fr2.avif");
+}
+
+#img19:checked ~ .main-image img {
+    content: url("synyster-fr3.avif");
+}
+
+#img20:checked ~ .main-image img {
+    content: url("synyster-fr4.avif");
+}
+
+#img21:checked ~ .main-image img {
+    content: url("synyster-standard.avif");
+}
+
+#img22:checked ~ .main-image img {
+    content: url("synyster-standard2.avif");
+}
+
+#img23:checked ~ .main-image img {
+    content: url("synyster-standard3.avif");
+}
+
+#img24:checked ~ .main-image img {
+    content: url("synyster-standard4.avif");
+}
+
+#img25:checked ~ .main-image img {
+    content: url("syn2.avif");
+}
+
+#img26:checked ~ .main-image img {
+    content: url("syn3.avif");
+}
+
+#img27:checked ~ .main-image img {
+    content: url("syn4.avif");
 }
 
 footer {
