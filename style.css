@@ -285,7 +285,7 @@ nav ul li a {
     display: block;
 }
 
-.menu-toggle {
+#menu-toggle {
     display: none;
 }
 
