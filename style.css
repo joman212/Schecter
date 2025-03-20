@@ -10,16 +10,54 @@ body {
 }
 
 @media (max-width: 768px) {
-    .nav-menu {
-        display: none;
+    header {
+        padding: 10px 20px;
+        flex-direction: column;
+        align-items: center;
     }
+
+    nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        background: #222;
+        position: absolute;
+        top: 60px;
+        left: 0;
+    }
+
+    nav ul.active {
+        display: flex;
+    }
+
+    nav ul li {
+        padding: 10px;
+    }
+
     .menu-icon {
         display: block;
-        font-size: 24px;
         cursor: pointer;
+        font-size: 24px;
+        color: white;
     }
-    #menu-toggle:checked + .nav-menu {
-        display: flex;
+}
+
+@media (max-width: 768px) {
+    .featured-products {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product {
+        width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    footer {
+        font-size: 0.9rem;
+        padding: 15px;
     }
 }
 
