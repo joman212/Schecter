@@ -9,37 +9,52 @@ body {
     animation: fadeIn 0.5s ease-in-out forwards;
 }
 
+/* 🔹 Menu Icon */
+.menu-icon {
+    font-size: 28px;
+    cursor: pointer;
+    display: none;
+    color: white;
+    padding: 10px;
+    user-select: none;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+
+/* 🔹 Hide Default Checkbox */
+#menu-toggle {
+    display: none;
+}
+
+/* 🔹 Mobile Navigation */
 @media (max-width: 768px) {
-    header {
-        padding: 10px 20px;
-        flex-direction: column;
-        align-items: center;
+    .menu-icon {
+        display: block; /* ✅ Show menu icon on mobile */
+        z-index: 2;
     }
 
-    nav ul {
+    /* 🔹 Hide Menu by Default */
+    .nav-menu {
         display: none;
         flex-direction: column;
-        width: 100%;
-        text-align: center;
-        background: #222;
         position: absolute;
         top: 60px;
         left: 0;
+        width: 100%;
+        background: #222;
+        padding: 10px;
+        text-align: center;
+        z-index: 1000;
     }
 
-    nav ul.active {
+    /* ✅ Show Menu When Checkbox is Checked */
+    #menu-toggle:checked ~ nav .nav-menu {
         display: flex;
     }
 
-    nav ul li {
-        padding: 10px;
-    }
-
-    .menu-icon {
-        display: block;
-        cursor: pointer;
-        font-size: 24px;
-        color: white;
+    .nav-menu li {
+        padding: 10px 0;
     }
 }
 
