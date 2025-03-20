@@ -3,21 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submission Successful</title>
+    <title>Accessories | Schecter</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="icon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <header>
         <div class="logo">
-        <img src="logo.png" alt="Schecter Guitars">
+            <img src="logo.png" alt="Schecter Guitars">
         </div>
         <nav>
             <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="products.html">Guitars</a>
-            <li><a href="Accessories.html">Accessories</a></li>
+            <li><a href="products.html">Guitars</a></li>
+            <li class="dropdown">
+                    <a href="Accessories.html">Accessories</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="set.html">Synyster Gates Signature Set</a></li>
+                        <li><a href="strings1.html">Synyster Gates Slinky Paradigm Strings</a></li>
+                        <li><a href="strings2.html">Synyster Gates Signature 7-String Electric Guitar Strings</a></li>
+                    </ul>
+                </li>
             <li><a href="a7x.html">A7X</a></li>
             <li><a href="#">Support</a></li>
             <li><a href="Contact.html">Contact</a></li>
@@ -29,12 +37,30 @@
             </ul>
         </nav>
     </header>
-<section class="contact">
-    <h1>Thank You!</h1>
-    <p>Your submission has been received. We will get back to you as soon as possible.</p>
-    <a href="index.html" class="btn">Return Home</a>
-</section>
 
+    <section class="guitar-list">
+        <h2>Accessories</h2>
+        <div class="guitar-grid">
+            <div class="guitar">
+                <img src="set1.avif" alt="Synyster Standard">
+                <h3>Synyster Gates Signature Set</h3>
+                <p class="price">$299.00</p>
+                <a href="set.html" class="btn">View Details</a>
+            </div>
+            <div class="guitar">
+                <img src="strings1.avif" alt="Synyster Custom">
+                <h3>Synyster Gates Signature Electric Guitar 6-Strings 10-52</h3>
+                <p class="price">$12.99</p>
+                <a href="strings1.html" class="btn">View Details</a>
+            </div>
+            <div class="guitar">
+                <img src="strings2.avif" alt="Synyster Custom-S">
+                <h3>Synyster Gates Signature Electric Guitar 7-Strings 10-60</h3>
+                <p class="price">$14.99</p>
+                <a href="strings2.html" class="btn">View Details</a>
+            </div>
+    </div>
+    </section>
     <footer>
         <p>&copy; 2024 Schecter Guitars. All rights reserved.</p>
         <div class="social-media-icons">
@@ -52,6 +78,5 @@
         </a>
     </div>
     </footer>
-
 </body>
 </html>

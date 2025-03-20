@@ -573,6 +573,30 @@ nav ul li a {
 #img27:checked ~ .main-image img {
     content: url("syn4.avif");
 }
+#img28:checked ~ .main-image img {
+    content: url("set1.avif");
+}
+#img29:checked ~ .main-image img {
+    content: url("set2.avif");
+}
+#img30:checked ~ .main-image img {
+    content: url("set3.avif");
+}
+#img31:checked ~ .main-image img {
+    content: url("set4.avif");
+}
+#img32:checked ~ .main-image img {
+    content: url("strings1.avif");
+}
+#img33:checked ~ .main-image img {
+    content: url("strings12.avif");
+}
+#img34:checked ~ .main-image img {
+    content: url("strings13.avif");
+}
+#img35:checked ~ .main-image img {
+    content: url("strings2.avif");
+}
 
 .contact {
     text-align: center;
@@ -628,4 +652,24 @@ footer {
     background: #5E3A1C;
     color: white;
     text-align: center;
+    position: relative;
+}
+
+.social-media-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-media-icons a img {
+    width: 30px;
+    height: 30px;
+    filter: invert(100%);
+    transition: transform 0.3s ease-in-out, filter 0.3s;
+}
+
+.social-media-icons a:hover img {
+    transform: scale(1.2);
+    filter: invert(70%);
 }
