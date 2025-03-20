@@ -9,6 +9,20 @@ body {
     animation: fadeIn 0.5s ease-in-out forwards;
 }
 
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+    .menu-icon {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+    }
+    #menu-toggle:checked + .nav-menu {
+        display: flex;
+    }
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -572,6 +586,53 @@ nav ul li a {
 
 #img27:checked ~ .main-image img {
     content: url("syn4.avif");
+}
+
+.contact {
+    text-align: center;
+    padding: 50px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input, textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.note {
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 10px;
 }
 
 footer {
