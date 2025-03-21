@@ -324,9 +324,6 @@ nav ul li a {
 .reviews h2 {
     font-size: 2rem;
     margin-bottom: 20px;
-        color: #E76E24;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
-    -2px -2px 5px #D22730;
 }
 
 .review {
