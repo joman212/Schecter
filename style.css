@@ -9,12 +9,14 @@ body {
     animation: fadeIn 0.5s ease-in-out forwards;
 }
 body h1 {
+    font-size: 2.5rem;
     color: #E76E24;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
     -2px -2px 5px #D22730;
 }
 
 body h2 {
+    font-size: 2rem;
     color: white;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
     -2px -2px 5px #D22730;
@@ -189,6 +191,7 @@ nav ul li a {
 
 .guitar-list {
     text-align: center;
+    margin-top: 30px;
 }
 
 .guitar-grid {
@@ -334,6 +337,27 @@ nav ul li a {
     border-radius: 8px;
     font-size: 1.1rem;
 }
+
+.featured-videos {
+    text-align: center;
+    padding: 50px;
+    background: #111;
+    color: white;
+}
+
+.featured-videos h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.video-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
 .cart-img img {
     width: 2.5rem;
     height: 2.5rem;
@@ -463,10 +487,9 @@ nav ul li a {
 }
 
 .video-container iframe {
-    width: 100%;
-    max-width: 800px;
-    height: 450px;
+    height: 315px;
     border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
 }
 
 .gates {
