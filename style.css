@@ -32,14 +32,6 @@ body h2 {
     }
 }
 
-a {
-    transition: color 0.3s ease-in-out transform 0.2s;
-}
-
-a:hover {
-    color: #D22730;
-}
-
 @keyframes slideInLeft {
     from {
         opacity: 0;
@@ -62,6 +54,14 @@ a:hover {
     }
 }
 
+a {
+    transition: color 0.3s ease-in-out transform 0.2s;
+}
+
+a:hover {
+    color: #D22730;
+}
+
 .video-start {
     position: absolute;
     top: 0;
@@ -78,20 +78,8 @@ a:hover {
     object-fit: cover;
 }
 
-.main-text, .product-details, .bio {
-    animation: slideInLeft 1s ease-in-out;
-}
-
 .video-container, .reviews {
     animation: slideInRight 1s ease-in-out;
-}
-
-.guitar img, .bio-images img {
-    transition: transform 0.3s ease-in-out;
-}
-
-.guitar img:hover, .bio-images img:hover {
-    transform: scale(1.1);
 }
 
 header {
@@ -114,6 +102,51 @@ nav ul li a {
     font-weight: bold;
 }
 
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #222;
+    min-width: 200px;
+    top: 100%;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+
+.dropdown-menu li {
+    list-style: none;
+}
+
+.dropdown-menu li a {
+    display: block;
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #E76E24;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.cart-img img {
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: cover;
+}
+
+.cart {
+    text-align: center;
+    padding: 2rem;
+}
+
 .main-text {
     text-align: center;
     padding: 10rem 2rem;;
@@ -132,6 +165,39 @@ nav ul li a {
 .main-text p {
     font-size: 1.2rem;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.main-text, .product-details, .bio {
+    animation: slideInLeft 1s ease-in-out;
+}
+
+.guitar-list {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.guitar-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.guitar {
+    text-align: center;
+    width: 300px;
+}
+
+.guitar img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.guitar img:hover{
+    transform: scale(1.1);
 }
 
 .product-details {
@@ -188,34 +254,25 @@ nav ul li a {
     -2px -2px 5px #D22730;
 }
 
-.guitar-list {
-    text-align: center;
-    margin-top: 30px;
-}
-
-.guitar-grid {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.guitar {
-    text-align: center;
-    width: 300px;
-}
-
-.guitar img {
-    width: 100%;
-    height: auto;
-    max-height: 400px;
-    object-fit: cover;
-}
-
-.featured {
+.reviews {
     text-align: center;
     padding: 2rem;
-    margin-top: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    margin-top: 30px;
+    border-radius: 10px;
+}
+
+.reviews h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.review {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-size: 1.1rem;
 }
 
 .btn {
@@ -225,6 +282,12 @@ nav ul li a {
     color: black;
     text-decoration: none;
     border-radius: 5px;
+}
+
+.featured {
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
 }
 
 .about {
@@ -313,27 +376,6 @@ nav ul li a {
     -2px -2px 5px #26408B;
 }
 
-.reviews {
-    text-align: center;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.1);
-    margin-top: 30px;
-    border-radius: 10px;
-}
-
-.reviews h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-}
-
-.review {
-    background: rgba(0, 0, 0, 0.5);
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    font-size: 1.1rem;
-}
-
 .featured-videos {
     text-align: center;
     padding: 50px;
@@ -350,17 +392,6 @@ nav ul li a {
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
-}
-
-.cart-img img {
-    width: 2.5rem;
-    height: 2.5rem;
-    object-fit: cover;
-}
-
-.cart {
-    text-align: center;
-    padding: 2rem;
 }
 
 .checkout {
@@ -404,25 +435,6 @@ nav ul li a {
     z-index: 2;
 }
 
-.dropdown-menu li {
-    list-style: none;
-}
-
-.dropdown-menu li a {
-    display: block;
-    color: white;
-    padding: 10px;
-    text-decoration: none;
-}
-
-.dropdown-menu li a:hover {
-    background-color: #D22730;
-}
-
-.dropdown:hover .dropdown-menu {
-    display: block;
-}
-
 .image-gallery {
     flex: 1;
     max-width: 50%;
@@ -454,11 +466,6 @@ nav ul li a {
 
 .thumbnails img:hover {
     transform: scale(1.1);
-}
-
-.fade {
-    opacity: 0;
-    transform: scale(0.9);
 }
 
 .thumbnails img {
@@ -591,18 +598,6 @@ nav ul li a {
 
 #img24:checked ~ .main-image img {
     content: url("synyster-standard4.avif");
-}
-
-#img25:checked ~ .main-image img {
-    content: url("syn2.avif");
-}
-
-#img26:checked ~ .main-image img {
-    content: url("syn3.avif");
-}
-
-#img27:checked ~ .main-image img {
-    content: url("syn4.avif");
 }
 #img28:checked ~ .main-image img {
     content: url("set1.avif");
