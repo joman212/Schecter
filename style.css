@@ -227,24 +227,6 @@ nav ul li a {
     -2px -2px 5px #B22222;
 }
 
-.details ul {
-    list-style: none;
-    padding: 0;
-    gap: 10px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-}
-
-.details ul li {
-    font-size: 1.2rem;
-    padding: 8px;
-    background: #4B4E50;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
 .price {
     font-size: 1.3rem;
     font-weight: bold;
@@ -282,6 +264,7 @@ nav ul li a {
     color: black;
     text-decoration: none;
     border-radius: 5px;
+    text-align: center;
 }
 
 .featured {
