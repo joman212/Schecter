@@ -41,13 +41,7 @@
             </div>
         </div>
         <div class="cart-item">
-            <img src="strings1.avif" alt="Synyster Gates Signature Strings">
-            <div class="cart-item-details">
-                <h2><a href="strings1.html">Synyster Gates Signature Strings (10-52)</a></h2>
-                <p>Price: $14.99</p>
-                <p>Quantity: 2</p>
-                <button class="remove-btn">Remove</button>
-            </div>
+        </div>
         </div>
         <h2>Total: $2,028.98</h2>
         <a href="Checkout.html"><button> class="checkout-btn" href=Proceed to Checkout</button></a>
@@ -69,6 +63,71 @@
         </a>
     </div>
     </footer>
-<script src="main.js"></script>
+document.addEventListener("DOMContentLoaded", function() {
+    
+    let addButtons = document.querySelectorAll('.details .btn');
+    
+    addButtons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault(); 
+
+            let nameStr = document.querySelector('.itemName').innerText;
+            let rawPrice = document.querySelector('.itemPrice').innerText.replace(/,/g, '');
+            let priceNum = parseFloat(rawPrice);
+            let imgPath = document.querySelector('.main-image img').getAttribute('src');
+
+            let cartItems = JSON.parse(localStorage.getItem("userCart")) || [];
+            
+            cartItems.push({ name: nameStr, price: priceNum, image: imgPath });
+            
+            localStorage.setItem("userCart", JSON.stringify(cartItems));
+
+            window.location.href = "cart.html";
+        });
+    });
+
+    let cartSection = document.querySelector('.cart');
+    if (cartSection) {
+        renderCart();
+    }
+});
+
+function renderCart() {
+    let cartSection = document.querySelector('.cart');
+    if (!cartSection) return;
+
+    let cartItems = JSON.parse(localStorage.getItem("userCart")) || [];
+    
+    cartSection.innerHTML = '<h1>Shopping Cart</h1>';
+    
+    let grandTotal = 0;
+
+    if (cartItems.length === 0) {
+        cartSection.innerHTML += '<p>Your cart is empty.</p>';
+    } else {
+        cartItems.forEach(function(item, index) {
+            let itemDiv = document.createElement("div");
+            itemDiv.className = "cart-item";
+            itemDiv.innerHTML = '<img src="' + item.image + '" style="width:100px; height:auto;">' +
+                                '<div class="cart-item-details">' +
+                                '<h2>' + item.name + '</h2>' +
+                                '<p>Price: $' + item.price.toLocaleString() + '</p>' +
+                                '<button class="remove-btn" onclick="removeItem(' + index + ')">Remove</button>' +
+                                '</div>';
+            cartSection.appendChild(itemDiv);
+            grandTotal += item.price;
+        });
+    }
+
+    cartSection.innerHTML += '<h2>Total: $' + grandTotal.toLocaleString() + '</h2>' +
+                             '<a href="checkout.html"><button class="checkout-btn">Proceed to Checkout</button></a>';
+}
+
+function removeItem(index) {
+    let cartItems = JSON.parse(localStorage.getItem("userCart")) || [];
+    cartItems.splice(index, 1);
+    localStorage.setItem("userCart", JSON.stringify(cartItems));
+    renderCart(); 
+}
 </body>
 </html>

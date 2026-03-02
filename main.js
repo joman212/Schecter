@@ -1,79 +1,81 @@
-let cartItems = JSON.parse(localStorage.getItem('schecterCart')) || [];
-
-function addToCart(itemName, itemPrice, itemImage) {
-    let product = { name: itemName, price: itemPrice, image: itemImage };
-    cartItems.push(product);
-    localStorage.setItem('schecterCart', JSON.stringify(cartItems));
-    alert(itemName + " added successfully.");
-}
-
-function renderCart() {
-    let container = document.getElementById('cartContainer');
-    if (!container) return;
+document.addEventListener("DOMContentLoaded", function() {
     
-    container.innerHTML = '';
-    let grandTotal = 0;
+    let actionButtons = document.querySelectorAll('.details .btn');
+    
+    actionButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault(); 
 
-    cartItems.forEach(function(item, index) {
-        let row = document.createElement('div');
-        row.innerHTML = "<img src='" + item.image + "' width='50'> " + item.name + " : $" + item.price + " <button onclick='removeItem(" + index + ")'>Remove</button>";
-        container.appendChild(row);
-        grandTotal += item.price;
+            // Much simpler and more robust selectors
+            let nameNode = document.querySelector('.itemName');
+            let priceNode = document.querySelector('.itemPrice');
+            let imgNode = document.querySelector('.main-image img');
+            
+            // If it fails, it will print exactly what is missing in the console
+            if (!nameNode || !priceNode || !imgNode) {
+                console.log("Found Name:", nameNode);
+                console.log("Found Price:", priceNode);
+                console.log("Found Image:", imgNode);
+                alert("Error finding product details on this page. Check the console for details.");
+                return;
+            }
+
+            let itemName = nameNode.innerText;
+            let priceString = priceNode.innerText.replace(/,/g, '');
+            let itemPrice = parseFloat(priceString);
+            let imageSource = imgNode.getAttribute('src');
+
+            let shoppingCart = [];
+            
+            try {
+                let storedData = localStorage.getItem("schecterCart");
+                if (storedData) {
+                    shoppingCart = JSON.parse(storedData);
+                }
+            } catch (err) {
+                localStorage.removeItem("schecterCart");
+            }
+            
+            shoppingCart.push({ name: itemName, price: itemPrice, image: imageSource });
+            localStorage.setItem("schecterCart", JSON.stringify(shoppingCart));
+            
+            window.location.href = "cart.html";
+        });
     });
 
-    let totalDisplay = document.createElement('h3');
-    totalDisplay.innerHTML = "Total: $" + grandTotal;
-    container.appendChild(totalDisplay);
-    
-    localStorage.setItem('cartTotal', grandTotal);
-}
-
-function removeItem(index) {
-    cartItems.splice(index, 1);
-    localStorage.setItem('schecterCart', JSON.stringify(cartItems));
-    renderCart();
-}
-
-function loadCheckout() {
-    let totalDisplay = document.getElementById('checkoutTotal');
-    if (!totalDisplay) return;
-    
-    let savedTotal = localStorage.getItem('cartTotal') || 0;
-    totalDisplay.innerHTML = "Amount Due: $" + savedTotal;
-}
-
-function validateSignup(event) {
-    let email = document.getElementById('emailInput').value;
-    let password = document.getElementById('passwordInput').value;
-
-    if (email === "" || password === "") {
-        alert("All fields are required.");
-        event.preventDefault();
-    } else if (!email.includes("@")) {
-        alert("Enter a valid email address.");
-        event.preventDefault();
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    renderCart();
-    loadCheckout();
-
-    let signupForm = document.getElementById('signupForm');
-    if (signupForm) {
-        signupForm.addEventListener('submit', validateSignup);
+    let shoppingCartSection = document.querySelector('.cart');
+    if (shoppingCartSection) {
+        buildCartDisplay();
     }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-    let actionButton = document.getElementById('cartActionBtn');
-    if (actionButton) {
-        actionButton.addEventListener('click', function() {
-            let nameStr = document.querySelector('.productTitle').innerText;
-            let priceNum = parseInt(document.querySelector('.productPrice').innerText);
-            let imageSrc = document.querySelector('.productImage').getAttribute('src');
+function buildCartDisplay() {
+    let container = document.querySelector('.cart');
+    if (!container) return;
+
+    let shoppingCart = [];
+    
+    try {
+        let storedData = localStorage.getItem("schecterCart");
+        if (storedData) {
+            shoppingCart = JSON.parse(storedData);
+        }
+    } catch (err) {
+        localStorage.removeItem("schecterCart");
+    }
+    
+    container.innerHTML = '<h1>Shopping Cart</h1>';
+    let finalTotal = 0;
+
+    if (shoppingCart.length === 0) {
+        container.innerHTML += '<p>Your cart is empty.</p>';
+    } else {
+        shoppingCart.forEach(function(item, i) {
+            let productRow = document.createElement("div");
+            productRow.className = "cart-item";
             
-            addToCart(nameStr, priceNum, imageSrc);
-        });
-    }
-});
+            productRow.innerHTML = '<img src="' + item.image + '" alt="' + item.name + '">' +
+                                '<div class="cart-item-details">' +
+                                '<h2>' + item.name + '</h2>' +
+                                '<p>Price: $' + item.price.toLocaleString() + '</p>' +
+                                '<button class="remove-btn" onclick="remove
