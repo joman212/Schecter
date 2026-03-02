@@ -4,22 +4,16 @@ body {
     padding: 0;
     background-color: #101820;
     color: white;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    animation: fadeIn 0.5s ease-in-out forwards;
+    animation: fadeIn 1s ease-in-out forwards;
 }
 body h1 {
     font-size: 2.5rem;
     color: #E76E24;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
-    -2px -2px 5px #D22730;
 }
 
 body h2 {
     font-size: 2rem;
     color: white;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
-    -2px -2px 5px #D22730;
 }
 @keyframes fadeIn {
     from {
@@ -56,7 +50,7 @@ a:hover {
     object-fit: cover;
 }
 
-.video-container, .reviews {
+.video-container, .reviews .main-text, .product-details, .bio {
     animation: slideInRight 1s ease-in-out;
 }
 
@@ -80,39 +74,6 @@ nav ul li a {
     font-weight: bold;
 }
 
-.dropdown {
-    position: relative;
-}
-
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    background-color: #222;
-    min-width: 200px;
-    top: 100%;
-    border-radius: 5px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-    z-index: 2;
-}
-
-.dropdown-menu li {
-    list-style: none;
-}
-
-.dropdown-menu li a {
-    display: block;
-    color: white;
-    padding: 10px;
-    text-decoration: none;
-}
-
-.dropdown-menu li a:hover {
-    background-color: #E76E24;
-}
-
-.dropdown:hover .dropdown-menu {
-    display: block;
-}
 
 .cart-img img{
     width: 2rem;
@@ -232,17 +193,10 @@ nav ul li a {
 .main-text h1 {
     font-size: 3rem;
     color: white;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
-    -2px -2px 5px #D22730;
 }
 
 .main-text p {
     font-size: 1.2rem;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-}
-
-.main-text, .product-details, .bio {
-    animation: slideInLeft 1s ease-in-out;
 }
 
 .guitar-list {
@@ -253,8 +207,8 @@ nav ul li a {
 .guitar-grid {
     display: flex;
     justify-content: center;
-    gap: 20px;
     flex-wrap: wrap;
+    gap: 20px;
 }
 
 .guitar {
@@ -276,7 +230,6 @@ nav ul li a {
 
 .product-details {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     padding: 50px;
@@ -297,8 +250,6 @@ nav ul li a {
 .details h1 {
     font-size: 2.5rem;
     color: #E5E5E5;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
-    -2px -2px 5px #B22222;
 }
 
 .price {
@@ -306,8 +257,6 @@ nav ul li a {
     font-weight: bold;
     color: #E76E24;
     margin: 10px 0;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
-    -2px -2px 5px #D22730;
 }
 
 .reviews {
@@ -383,8 +332,6 @@ nav ul li a {
 
 .about h2 {
     color: #D4AF37;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
-    -2px -2px 5px #26408B;
 }
 
 .bio {
@@ -429,8 +376,6 @@ nav ul li a {
 .bio-text h2 {
     color: #D4AF37;
     margin-top: 20px;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
-    -2px -2px 5px #26408B;
 }
 
 .featured-videos {
@@ -459,8 +404,6 @@ nav ul li a {
 .signup {
     text-align: center;
     padding: 2rem;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
-    -2px -2px 5px #D22730;
 }
 
 .signup form {
@@ -521,11 +464,6 @@ nav ul li a {
 .video-container {
     text-align: center;
     padding: 20px;
-}
-
-.video-container h2 {
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
-    -2px -2px 5px #D22730;
 }
 
 .video-container iframe {
@@ -678,8 +616,6 @@ nav ul li a {
     font-size: 2rem;
     margin-bottom: 20px;
         color: #E76E24;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
-    -2px -2px 5px #D22730;
 }
 
 form {
@@ -728,8 +664,6 @@ textarea {
     font-size: 2.5rem;
     margin-bottom: 20px;
         color: #E76E24;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
-    -2px -2px 5px #D22730;
 }
 
 .support-hours {
@@ -754,8 +688,6 @@ textarea {
     font-size: 1.2rem;
     font-weight: bold;
     color: #E76E24;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
-    -2px -2px 5px #D22730;
 }
 
 .faq p {
@@ -801,5 +733,3 @@ footer {
     transform: scale(1.2);
     filter: invert(70%);
 }
-
-
