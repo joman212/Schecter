@@ -7,11 +7,12 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="icon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+<script src="cartLogic.js"></script>
 </head>
 <body>
     <header>
         <div class="logo">
-        <img src="logo.png" alt="Schecter Guitars">
+        <img src="logo.png" alt="Schecter Guitars" class="itemImage" class="itemImage">
         </div>
         <nav>
         <ul>
@@ -31,18 +32,18 @@
     </header>
 
     <section class="guitar-list">
-        <h2>Accessories</h2>
+        <h2 class="itemName" class="itemName">Accessories</h2>
         <div class="guitar-grid">
             <div class="guitar">
                 <img src="set1.avif" alt="Synyster Standard">
                 <h3>Synyster Gates Signature Set</h3>
-                <p class="price">$299.00</p>
+                <p class="price">$<span class="itemPrice">299</span>.00</p>
                 <a href="set.html" class="btn">View Details</a>
             </div>
             <div class="guitar">
                 <img src="strings1.avif" alt="Synyster Custom">
                 <h3>Synyster Gates Signature Electric Guitar 6-Strings 10-52</h3>
-                <p class="price">$12.99</p>
+                <p class="price">$<span class="itemPrice">12</span>.99</p>
                 <a href="strings1.html" class="btn">View Details</a>
             </div>
             <div class="guitar">

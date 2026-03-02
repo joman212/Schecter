@@ -1,81 +1,91 @@
-document.addEventListener("DOMContentLoaded", function() {
+let cartMemory = JSON.parse(localStorage.getItem('userCart')) || [];
+
+function addToCart(itemId, itemName, itemPrice, itemImage) {
+    let itemFound = false;
     
-    let actionButtons = document.querySelectorAll('.details .btn');
-    
-    actionButtons.forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault(); 
-
-            // Much simpler and more robust selectors
-            let nameNode = document.querySelector('.itemName');
-            let priceNode = document.querySelector('.itemPrice');
-            let imgNode = document.querySelector('.main-image img');
-            
-            // If it fails, it will print exactly what is missing in the console
-            if (!nameNode || !priceNode || !imgNode) {
-                console.log("Found Name:", nameNode);
-                console.log("Found Price:", priceNode);
-                console.log("Found Image:", imgNode);
-                alert("Error finding product details on this page. Check the console for details.");
-                return;
-            }
-
-            let itemName = nameNode.innerText;
-            let priceString = priceNode.innerText.replace(/,/g, '');
-            let itemPrice = parseFloat(priceString);
-            let imageSource = imgNode.getAttribute('src');
-
-            let shoppingCart = [];
-            
-            try {
-                let storedData = localStorage.getItem("schecterCart");
-                if (storedData) {
-                    shoppingCart = JSON.parse(storedData);
-                }
-            } catch (err) {
-                localStorage.removeItem("schecterCart");
-            }
-            
-            shoppingCart.push({ name: itemName, price: itemPrice, image: imageSource });
-            localStorage.setItem("schecterCart", JSON.stringify(shoppingCart));
-            
-            window.location.href = "cart.html";
-        });
-    });
-
-    let shoppingCartSection = document.querySelector('.cart');
-    if (shoppingCartSection) {
-        buildCartDisplay();
-    }
-});
-
-function buildCartDisplay() {
-    let container = document.querySelector('.cart');
-    if (!container) return;
-
-    let shoppingCart = [];
-    
-    try {
-        let storedData = localStorage.getItem("schecterCart");
-        if (storedData) {
-            shoppingCart = JSON.parse(storedData);
+    for (let i = 0; i < cartMemory.length; i++) {
+        if (cartMemory[i].id === itemId) {
+            cartMemory[i].quantity += 1;
+            itemFound = true;
+            break;
         }
-    } catch (err) {
-        localStorage.removeItem("schecterCart");
     }
     
-    container.innerHTML = '<h1>Shopping Cart</h1>';
-    let finalTotal = 0;
+    if (!itemFound) {
+        cartMemory.push({
+            id: itemId,
+            name: itemName,
+            price: itemPrice,
+            image: itemImage,
+            quantity: 1
+        });
+    }
+    
+    localStorage.setItem('userCart', JSON.stringify(cartMemory));
+    alert(itemName + ' added successfully.');
+}
 
-    if (shoppingCart.length === 0) {
-        container.innerHTML += '<p>Your cart is empty.</p>';
-    } else {
-        shoppingCart.forEach(function(item, i) {
-            let productRow = document.createElement("div");
-            productRow.className = "cart-item";
-            
-            productRow.innerHTML = '<img src="' + item.image + '" alt="' + item.name + '">' +
-                                '<div class="cart-item-details">' +
-                                '<h2>' + item.name + '</h2>' +
-                                '<p>Price: $' + item.price.toLocaleString() + '</p>' +
-                                '<button class="remove-btn" onclick="remove
+function renderCartDisplay() {
+    let containerBox = document.getElementById('cartContainer');
+    let totalBox = document.getElementById('cartTotal');
+    
+    if (!containerBox || !totalBox) return;
+    
+    containerBox.innerHTML = '';
+    let finalCost = 0;
+    
+    cartMemory.forEach(function(item, index) {
+        let costMultiplier = item.price * item.quantity;
+        finalCost += costMultiplier;
+        
+        let itemRow = document.createElement('div');
+        itemRow.className = 'cartRow';
+        itemRow.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" style="width:60px; height:auto;">
+            <h4>${item.name}</h4>
+            <p>$${item.price} x ${item.quantity}</p>
+            <button onclick="removeItem(${index})">Remove</button>
+        `;
+        containerBox.appendChild(itemRow);
+    });
+    
+    totalBox.innerText = 'Total: $' + finalCost.toFixed(2);
+}
+
+function removeItem(index) {
+    cartMemory.splice(index, 1);
+    localStorage.setItem('userCart', JSON.stringify(cartMemory));
+    renderCartDisplay();
+}
+
+function submitOrder() {
+    if (cartMemory.length === 0) {
+        alert('Your cart is empty.');
+        return;
+    }
+    
+    const dashChar = String.fromCharCode(45);
+    const headerKey = 'Content' + dashChar + 'Type';
+    
+    fetch('checkout.php', {
+        method: 'POST',
+        headers: {
+            [headerKey]: 'application/json'
+        },
+        body: JSON.stringify(cartMemory)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.status === 'success') {
+            localStorage.removeItem('userCart');
+            cartMemory = [];
+            renderCartDisplay();
+            alert(data.message);
+        } else {
+            alert('Error processing order.');
+        }
+    })
+    .catch(error => {
+        console.error('Submission failed', error);
+    });
+}
