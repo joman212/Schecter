@@ -1,75 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="icon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shopping Cart - Schecter Guitars</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<header>
-    <div class="logo">
-            <img src="logo.png" alt="Schecter Guitars">
+  <!-- Your Existing Navigation -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="products.html">Guitars</a>
+    <a href="Accessories.html">Accessories</a>
+    <a href="about.html">About</a>
+    <a href="support.html">Support</a>
+    <a href="Contact.html">Contact</a>
+    <a href="signup.html">Sign Up</a>
+    <a href="cart.html">🛒 <span class="cart-count">0</span></a>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <h1>Shopping Cart</h1>
+    
+    <!-- Cart Items Container (JavaScript will populate this) -->
+    <div id="cartContainer">
+      <p>Loading cart...</p>
     </div>
-    <nav>
-            <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="products.html">Guitars</a></li>
-            <li><a href="Accessories.html">Accessories</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="support.html">Support</a></li>
-            <li><a href="Contact.html">Contact</a></li>
-            <li><a href="signup.html">Sign Up</a></li>
-            <li><a href="cart.html">
-                <div class="cart-img"><img src="cart.png">
-                </div>
-            </a></li>
-            </ul>
-    </nav>
-</header>
-    <section class="cart">
-    <div id="cartContainer"><!-- Cart items will appear here --></div>
-        <h1>Shopping Cart</h1>
-        <div class="cart-item">
-            <img src="synyster-custom-s.avif" alt="Synyster Custom-S Guitar">
-            <div class="cart-item-details">
-                <h2><a href="synyster-custom-s.html">Synyster Custom-S Guitar</a></h2>
-                <p>Price: $1,999.00</p>
-                <p>Quantity: 1</p>
-                <button class="remove-btn">Remove</button>
-            </div>
-        </div>
-        <div class="cart-item">
-            <img src="strings1.avif" alt="Synyster Gates Signature Strings">
-            <div class="cart-item-details">
-                <h2><a href="strings1.html">Synyster Gates Signature Strings (10-52)</a></h2>
-                <p>Price: $14.99</p>
-                <p>Quantity: 2</p>
-                <button class="remove-btn">Remove</button>
-            </div>
-        </div>
-        <h2>Total: $2,028.98</h2>
-        <a href="Checkout.html"><button> class="checkout-btn" href=Proceed to Checkout</button></a>
-    </section>
-    <footer>
-        <p>&copy; 2026 Schecter Guitars. All rights reserved.</p>
-        <div class="social-media-icons">
-        <a href="https://www.facebook.com/SchecterGuitarResearch" target="_blank" aria-label="Facebook">
-            <img src="fb.gif" alt="Facebook">
-        </a>
-        <a href="https://twitter.com/SchecterGuitars" target="_blank" aria-label="Twitter">
-            <img src="twitter.png" alt="Twitter">
-        </a>
-        <a href="https://www.instagram.com/schecterguitarsofficial/" target="_blank" aria-label="Instagram">
-            <img src="instagram.png" alt="Instagram">
-        </a>
-        <a href="https://www.youtube.com/user/SchecterGuitars" target="_blank" aria-label="YouTube">
-            <img src="youtube.png" alt="YouTube">
-        </a>
+    
+    <!-- Cart Summary -->
+    <div id="cartSummary" style="display:none;">
+      <p><strong>Total: $<span id="cartTotal">0.00</span></strong></p>
+      <a href="Checkout.html" class="checkout-btn">Proceed to Checkout</a>
     </div>
-    </footer>
-<script src="main.js"></script>
+  </main>
+
+  <footer>
+    <p>© 2026 Schecter Guitars. All rights reserved.</p>
+  </footer>
+
+  <!-- Load your existing main.js -->
+  <script src="main.js"></script>
+  
+  <!-- Cart Rendering Script -->
+  <script>
+    // Render cart items from localStorage
+    function renderCartDisplay() {
+      const container = document.getElementById('cartContainer');
+      const summary = document.getElementById('cartSummary');
+      const totalEl = document.getElementById('cartTotal');
+      
+      if (!container) return;
+      
+      // Get cart from localStorage
+      let cart = JSON.parse(localStorage.getItem('userCart')) || [];
+      
+      // Handle empty cart
+      if (cart.length === 0) {
+        container.innerHTML = '<p>Your cart is empty. <a href="products.html">Continue Shopping</a></p>';
+        summary.style.display = 'none';
+        return;
+      }
+      
+      // Build cart HTML (matches your existing design)
+      let html = '';
+      let total = 0;
+      
+      cart.forEach((item, index) => {
+        const itemTotal = (parseFloat(item.price) || 0) * (parseInt(item.quantity) || 1);
+        total += itemTotal;
+        
+        html += `
+          <div class="cart-item" data-index="${index}">
+            <a href="${item.id}.html">${item.name}</a><br>
+            Price: $${(parseFloat(item.price) || 0).toFixed(2)}<br>
+            Quantity: <input type="number" min="1" value="${item.quantity || 1}" 
+                   data-index="${index}" class="qty-input" style="width:50px;">
+            <button class="remove-btn" data-index="${index}">Remove</button>
+          </div>
+        `;
+      });
+      
+      container.innerHTML = html;
+      totalEl.textContent = total.toFixed(2);
+      summary.style.display = 'block';
+      
+      // Attach event listeners
+      attachCartEventListeners();
+      updateCartBadge();
+    }
+    
+    // Event listeners for quantity & remove
+    function attachCartEventListeners() {
+      document.querySelectorAll('.qty-input').forEach(input => {
+        input.addEventListener('change', function() {
+          const index = this.dataset.index;
+          const newQty = parseInt(this.value) || 1;
+          updateCartItemQuantity(index, Math.max(1, newQty));
+        });
+      });
+      
+      document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const index = this.dataset.index;
+          removeCartItem(index);
+        });
+      });
+    }
+    
+    // Update item quantity
+    function updateCartItemQuantity(index, newQuantity) {
+      let cart = JSON.parse(localStorage.getItem('userCart')) || [];
+      if (cart[index]) {
+        cart[index].quantity = newQuantity;
+        localStorage.setItem('userCart', JSON.stringify(cart));
+        renderCartDisplay();
+      }
+    }
+    
+    // Remove item from cart
+    function removeCartItem(index) {
+      let cart = JSON.parse(localStorage.getItem('userCart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('userCart', JSON.stringify(cart));
+      renderCartDisplay();
+      updateCartBadge();
+    }
+    
+    // Update cart badge in navigation
+    function updateCartBadge() {
+      const cart = JSON.parse(localStorage.getItem('userCart')) || [];
+      const badge = document.querySelector('.cart-count');
+      const totalItems = cart.reduce((sum, item) => sum + (parseInt(item.quantity) || 1), 0);
+      
+      if (badge) {
+        badge.textContent = totalItems;
+      }
+    }
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      renderCartDisplay();
+    });
+  </script>
 </body>
 </html>
