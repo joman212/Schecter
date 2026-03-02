@@ -30,6 +30,7 @@
     </nav>
 </header>
     <section class="cart">
+    <div id="cartContainer"><!-- Cart items will appear here --></div>
         <h1>Shopping Cart</h1>
         <div class="cart-item">
             <img src="synyster-custom-s.avif" alt="Synyster Custom-S Guitar">
@@ -70,45 +71,5 @@
     </div>
     </footer>
 <script src="main.js"></script>
-<script>("DOMContentLoaded", function() {
-    let container = document.getElementById("cartContainer");
-    if (!container) return;
-    
-    let cartItems = JSON.parse(localStorage.getItem("userCart")) || [];
-    container.innerHTML = "";
-    let grandTotal = 0;
-
-    cartItems.forEach(function(item, index) {
-        let row = document.createElement("div");
-        row.innerHTML = "<img src='" + item.image + "' width='50'> " + item.name + " : $" + item.price + " <button onclick='removeItem(" + index + ")'>Remove</button>";
-        container.appendChild(row);
-        grandTotal += item.price;
-    });
-
-    let totalDisplay = document.createElement("h3");
-    totalDisplay.innerHTML = "Total: $" + grandTotal;
-    container.appendChild(totalDisplay);
-});
-
-function removeItem(index) {
-    let cartItems = JSON.parse(localStorage.getItem("userCart")) || [];
-    cartItems.splice(index, 1);
-    localStorage.setItem("userCart", JSON.stringify(cartItems));
-    window.location.reload();
-}</script>
-
-<div class="cartSection">
-    <h2>Your Shopping Cart</h2>
-    <div id="cartContainer"></div>
-    <h3 id="cartTotal">Total: $0.00</h3>
-    <button onclick="submitOrder()">Checkout Now</button>
-</div>
-<script>
-    window.onload = function() {
-        if (document.getElementById('cartContainer')) {
-            renderCartDisplay();
-        }
-    };
-</script>
 </body>
 </html>
