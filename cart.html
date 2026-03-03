@@ -1,147 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shopping Cart - Schecter Guitars</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Your Existing Navigation -->
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="products.html">Guitars</a>
-    <a href="Accessories.html">Accessories</a>
-    <a href="about.html">About</a>
-    <a href="support.html">Support</a>
-    <a href="Contact.html">Contact</a>
-    <a href="signup.html">Sign Up</a>
-    <a href="cart.html">🛒 <span class="cart-count">0</span></a>
-  </nav>
+  <!-- Navigation -->
+  <header>
+    <div class="logo">
+      <a href="index.html">
+        <img src="schecter-logo.png" alt="Schecter" onerror="this.style.display='none'">
+      </a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Guitars</a></li>
+        <li><a href="Accessories.html">Accessories</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="Contact.html">Contact</a></li>
+        <li><a href="signup.html">Sign Up</a></li>
+        <li>
+          <a href="cart.html" class="cart-img">
+            <img src="cart-icon.png" alt="Cart" onerror="this.style.display='none'">
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
 
-  <!-- Main Content -->
-  <main>
-    <h1>Shopping Cart</h1>
+  <main class="cart-wrapper">
+    <h1 class="cart-title">Shopping Cart</h1>
     
-    <!-- Cart Items Container (JavaScript will populate this) -->
     <div id="cartContainer">
-      <p>Loading cart...</p>
+      <p style="color: #E5E5E5; text-align: center; padding: 3rem;">Loading cart...</p>
     </div>
     
-    <!-- Cart Summary -->
-    <div id="cartSummary" style="display:none;">
-      <p><strong>Total: $<span id="cartTotal">0.00</span></strong></p>
+    <div id="cartSummary" class="cart-summary" style="display:none;">
+      <div class="cart-total">
+        Total: $<span id="cartTotal">0.00</span>
+      </div>
       <a href="Checkout.html" class="checkout-btn">Proceed to Checkout</a>
     </div>
   </main>
 
   <footer>
     <p>© 2026 Schecter Guitars. All rights reserved.</p>
+    <div class="social-media-icons">
+      <a href="#"><img src="facebook.png" alt="Facebook"></a>
+      <a href="#"><img src="twitter.png" alt="Twitter"></a>
+      <a href="#"><img src="instagram.png" alt="Instagram"></a>
+      <a href="#"><img src="youtube.png" alt="YouTube"></a>
+    </div>
   </footer>
 
-  <!-- Load your existing main.js -->
   <script src="main.js"></script>
-  
-  <!-- Cart Rendering Script -->
   <script>
-    // Render cart items from localStorage
-    function renderCartDisplay() {
-      const container = document.getElementById('cartContainer');
-      const summary = document.getElementById('cartSummary');
-      const totalEl = document.getElementById('cartTotal');
-      
-      if (!container) return;
-      
-      // Get cart from localStorage
-      let cart = JSON.parse(localStorage.getItem('userCart')) || [];
-      
-      // Handle empty cart
-      if (cart.length === 0) {
-        container.innerHTML = '<p>Your cart is empty. <a href="products.html">Continue Shopping</a></p>';
-        summary.style.display = 'none';
-        return;
-      }
-      
-      // Build cart HTML (matches your existing design)
-      let html = '';
-      let total = 0;
-      
-      cart.forEach((item, index) => {
-        const itemTotal = (parseFloat(item.price) || 0) * (parseInt(item.quantity) || 1);
-        total += itemTotal;
+    (function() {
+      if (window._cartInitialized) return;
+      window._cartInitialized = true;
+
+      function renderCart() {
+        var container = document.getElementById('cartContainer');
+        var summary = document.getElementById('cartSummary');
+        var totalEl = document.getElementById('cartTotal');
         
-        html += `
-          <div class="cart-item" data-index="${index}">
-            <a href="${item.id}.html">${item.name}</a><br>
-            Price: $${(parseFloat(item.price) || 0).toFixed(2)}<br>
-            Quantity: <input type="number" min="1" value="${item.quantity || 1}" 
-                   data-index="${index}" class="qty-input" style="width:50px;">
-            <button class="remove-btn" data-index="${index}">Remove</button>
-          </div>
-        `;
-      });
-      
-      container.innerHTML = html;
-      totalEl.textContent = total.toFixed(2);
-      summary.style.display = 'block';
-      
-      // Attach event listeners
-      attachCartEventListeners();
-      updateCartBadge();
-    }
-    
-    // Event listeners for quantity & remove
-    function attachCartEventListeners() {
-      document.querySelectorAll('.qty-input').forEach(input => {
-        input.addEventListener('change', function() {
-          const index = this.dataset.index;
-          const newQty = parseInt(this.value) || 1;
-          updateCartItemQuantity(index, Math.max(1, newQty));
+        if (!container) return;
+        
+        var cart = JSON.parse(localStorage.getItem('userCart')) || [];
+        
+        if (cart.length === 0) {
+          container.innerHTML = '<div class="empty-cart"><p style="color: #E5E5E5;">Your cart is empty.</p><p><a href="products.html" style="color: #E76E24;">→ Continue Shopping</a></p></div>';
+          summary.style.display = 'none';
+          return;
+        }
+        
+        var html = '<div class="cart-items">';
+        var total = 0;
+        
+        cart.forEach(function(item, index) {
+          var price = parseFloat(item.price) || 0;
+          var qty = parseInt(item.quantity) || 1;
+          var itemTotal = price * qty;
+          total += itemTotal;
+          var imgSrc = item.image || 'placeholder.jpg';
+          
+          html += '<div class="cart-item">' +
+            '<img src="' + imgSrc + '" alt="' + item.name + '" class="cart-item-image" onerror="this.src=\'https://via.placeholder.com/100\'">' +
+            '<div class="cart-item-info">' +
+              '<h3 style="color: #E5E5E5; margin: 0 0 10px 0;">' + item.name + '</h3>' +
+              '<div style="color: #D4AF37; font-size: 1.2rem; font-weight: bold; margin: 10px 0;">Price: $' + price.toFixed(2) + '</div>' +
+              '<div style="color: #E5E5E5; margin: 10px 0;">Quantity: ' + qty + '</div>' +
+              '<button class="remove-btn" data-index="' + index + '" style="background: #B20000; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px;">Remove</button>' +
+            '</div>' +
+          '</div>';
         });
-      });
-      
-      document.querySelectorAll('.remove-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const index = this.dataset.index;
-          removeCartItem(index);
+        
+        html += '</div>';
+        container.innerHTML = html;
+        totalEl.textContent = total.toFixed(2);
+        summary.style.display = 'block';
+        
+        document.querySelectorAll('.remove-btn').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var index = parseInt(this.getAttribute('data-index'));
+            var cart = JSON.parse(localStorage.getItem('userCart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('userCart', JSON.stringify(cart));
+            renderCart();
+            updateCartBadge();
+          });
         });
-      });
-    }
-    
-    // Update item quantity
-    function updateCartItemQuantity(index, newQuantity) {
-      let cart = JSON.parse(localStorage.getItem('userCart')) || [];
-      if (cart[index]) {
-        cart[index].quantity = newQuantity;
-        localStorage.setItem('userCart', JSON.stringify(cart));
-        renderCartDisplay();
+        
+        updateCartBadge();
       }
-    }
-    
-    // Remove item from cart
-    function removeCartItem(index) {
-      let cart = JSON.parse(localStorage.getItem('userCart')) || [];
-      cart.splice(index, 1);
-      localStorage.setItem('userCart', JSON.stringify(cart));
-      renderCartDisplay();
-      updateCartBadge();
-    }
-    
-    // Update cart badge in navigation
-    function updateCartBadge() {
-      const cart = JSON.parse(localStorage.getItem('userCart')) || [];
-      const badge = document.querySelector('.cart-count');
-      const totalItems = cart.reduce((sum, item) => sum + (parseInt(item.quantity) || 1), 0);
       
-      if (badge) {
-        badge.textContent = totalItems;
+      function updateCartBadge() {
+        var cart = JSON.parse(localStorage.getItem('userCart')) || [];
+        var badge = document.querySelector('.cart-count');
+        var total = cart.reduce(function(sum, item) { return sum + (parseInt(item.quantity) || 1); }, 0);
+        if (badge) badge.textContent = total;
       }
-    }
-    
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', function() {
-      renderCartDisplay();
-    });
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', renderCart);
+      } else {
+        renderCart();
+      }
+    })();
   </script>
 </body>
 </html>
