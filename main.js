@@ -504,4 +504,105 @@ document.addEventListener('DOMContentLoaded', function() {
   
   window._reinitCartListeners = attachAddToCartListeners;
 })();
-// ============ END CART FIX ============
+// ============ CART FUNCTIONALITY (cart.html only) ============
+
+(function() {
+  // Only run on cart page
+  if (!document.getElementById('cartContainer')) return;
+  
+  // Prevent duplicate initialization
+  if (window._cartInitialized) return;
+  window._cartInitialized = true;
+
+  // Format price with commas: 1999.00 → "1,999.00"
+  function formatPrice(price) {
+    return parseFloat(price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  }
+
+  // Render cart items from localStorage
+  function renderCart() {
+    var container = document.getElementById('cartContainer');
+    var summary = document.getElementById('cartSummary');
+    var totalEl = document.getElementById('cartTotal');
+    
+    if (!container) return;
+    
+    var cart = JSON.parse(localStorage.getItem('userCart')) || [];
+    
+    // Handle empty cart
+    if (cart.length === 0) {
+      container.innerHTML = '<div class="empty-cart"><p style="color: #E5E5E5;">Your cart is empty.</p><p><a href="products.html" style="color: #E76E24;">→ Continue Shopping</a></p></div>';
+      if (summary) summary.style.display = 'none';
+      updateCartBadge();
+      return;
+    }
+    
+    var html = '<div class="cart-items">';
+    var total = 0;
+    
+    cart.forEach(function(item, index) {
+      var price = parseFloat(item.price) || 0;
+      var qty = parseInt(item.quantity) || 1;
+      var itemTotal = price * qty;
+      total += itemTotal;
+      var imgSrc = item.image || 'placeholder.jpg';
+      
+      html += '<div class="cart-item" data-index="' + index + '">' +
+        '<img src="' + imgSrc + '" alt="' + item.name + '" class="cart-item-image" onerror="this.src=\'https://via.placeholder.com/200\'">' +
+        '<div class="cart-item-info">' +
+          '<h3 style="color: #E5E5E5; margin: 0 0 10px 0;"><a href="' + item.id + '.html" style="color: #E5E5E5; text-decoration: none;">' + item.name + '</a></h3>' +
+          '<div style="color: #D4AF37; font-size: 1.2rem; font-weight: bold; margin: 10px 0;">Price: $' + formatPrice(price) + '</div>' +
+          '<div style="color: #E5E5E5; margin: 10px 0;">Quantity: ' + qty + '</div>' +
+          '<div style="color: #D4AF37; font-size: 1.1rem; font-weight: bold; margin: 10px 0;">Subtotal: $' + formatPrice(itemTotal) + '</div>' +
+          '<button class="remove-btn" data-index="' + index + '">Remove</button>' +
+        '</div>' +
+      '</div>';
+    });
+    
+    html += '</div>';
+    container.innerHTML = html;
+    
+    // Update total with commas
+    if (totalEl) totalEl.textContent = formatPrice(total);
+    if (summary) summary.style.display = 'block';
+    
+    // Attach remove button listeners
+    document.querySelectorAll('.remove-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var index = parseInt(this.getAttribute('data-index'));
+        var cart = JSON.parse(localStorage.getItem('userCart')) || [];
+        cart.splice(index, 1);
+        localStorage.setItem('userCart', JSON.stringify(cart));
+        renderCart();
+        updateCartBadge();
+      });
+    });
+    
+    updateCartBadge();
+  }
+  
+  // Update cart badge count in navigation
+  function updateCartBadge() {
+    var cart = JSON.parse(localStorage.getItem('userCart')) || [];
+    var badge = document.querySelector('.cart-count');
+    var total = cart.reduce(function(sum, item) { return sum + (parseInt(item.quantity) || 1); }, 0);
+    if (badge) {
+      badge.textContent = total;
+      badge.style.display = total > 0 ? 'inline-block' : 'none';
+    }
+  }
+  
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderCart);
+  } else {
+    renderCart();
+  }
+  
+  // Expose for manual re-init if needed
+  window._reinitCart = function() {
+    renderCart();
+    updateCartBadge();
+  };
+})();
+// ============ END CART FUNCTIONALITY ============

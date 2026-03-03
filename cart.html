@@ -8,30 +8,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Navigation -->
-  <header>
-    <div class="logo">
-      <a href="index.html">
-        <img src="schecter-logo.png" alt="Schecter" onerror="this.style.display='none'">
-      </a>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="products.html">Guitars</a></li>
-        <li><a href="Accessories.html">Accessories</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="support.html">Support</a></li>
-        <li><a href="Contact.html">Contact</a></li>
-        <li><a href="signup.html">Sign Up</a></li>
-        <li>
-          <a href="cart.html" class="cart-img">
-            <img src="cart-icon.png" alt="Cart" onerror="this.style.display='none'">
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </header>
+      <header>
+        <div class="logo">
+            <img src="logo.png" alt="Schecter Guitars" class="itemImage" class="itemImage">
+        </div>
+        <nav>
+                   <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Guitars</a></li>
+            <li><a href="Accessories.html">Accessories</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="support.html">Support</a></li>
+            <li><a href="Contact.html">Contact</a></li>
+            <li><a href="signup.html">Sign Up</a></li>
+            <li><a href="cart.html">
+                <div class="cart-img"><img src="cart.png"></div>
+            </a></li>
+        </ul>
+        </nav>
+    </header>
 
   <main class="cart-wrapper">
     <h1 class="cart-title">Shopping Cart</h1>
@@ -48,90 +43,27 @@
     </div>
   </main>
 
-  <footer>
-    <p>© 2026 Schecter Guitars. All rights reserved.</p>
-    <div class="social-media-icons">
-      <a href="#"><img src="facebook.png" alt="Facebook"></a>
-      <a href="#"><img src="twitter.png" alt="Twitter"></a>
-      <a href="#"><img src="instagram.png" alt="Instagram"></a>
-      <a href="#"><img src="youtube.png" alt="YouTube"></a>
+    <footer>
+        <p>&copy; 2026 Schecter Guitars. All rights reserved.</p>
+        <div class="social-media-icons">
+        <a href="https://www.facebook.com/SchecterGuitarResearch" target="_blank" aria-label="Facebook">
+            <img src="fb.gif" alt="Facebook">
+        </a>
+        <a href="https://twitter.com/SchecterGuitars" target="_blank" aria-label="Twitter">
+            <img src="twitter.png" alt="Twitter">
+        </a>
+        <a href="https://www.instagram.com/schecterguitarsofficial/" target="_blank" aria-label="Instagram">
+            <img src="instagram.png" alt="Instagram">
+        </a>
+        <a href="https://www.youtube.com/user/SchecterGuitars" target="_blank" aria-label="YouTube">
+            <img src="youtube.png" alt="YouTube">
+        </a>
     </div>
-  </footer>
-
+    </footer>
   <script src="main.js"></script>
-  <script>
-    (function() {
-      if (window._cartInitialized) return;
-      window._cartInitialized = true;
 
-      function renderCart() {
-        var container = document.getElementById('cartContainer');
-        var summary = document.getElementById('cartSummary');
-        var totalEl = document.getElementById('cartTotal');
-        
-        if (!container) return;
-        
-        var cart = JSON.parse(localStorage.getItem('userCart')) || [];
-        
-        if (cart.length === 0) {
-          container.innerHTML = '<div class="empty-cart"><p style="color: #E5E5E5;">Your cart is empty.</p><p><a href="products.html" style="color: #E76E24;">→ Continue Shopping</a></p></div>';
-          summary.style.display = 'none';
-          return;
-        }
-        
-        var html = '<div class="cart-items">';
-        var total = 0;
-        
-        cart.forEach(function(item, index) {
-          var price = parseFloat(item.price) || 0;
-          var qty = parseInt(item.quantity) || 1;
-          var itemTotal = price * qty;
-          total += itemTotal;
-          var imgSrc = item.image || 'placeholder.jpg';
-          
-          html += '<div class="cart-item">' +
-            '<img src="' + imgSrc + '" alt="' + item.name + '" class="cart-item-image" onerror="this.src=\'https://via.placeholder.com/100\'">' +
-            '<div class="cart-item-info">' +
-              '<h3 style="color: #E5E5E5; margin: 0 0 10px 0;">' + item.name + '</h3>' +
-              '<div style="color: #D4AF37; font-size: 1.2rem; font-weight: bold; margin: 10px 0;">Price: $' + price.toFixed(2) + '</div>' +
-              '<div style="color: #E5E5E5; margin: 10px 0;">Quantity: ' + qty + '</div>' +
-              '<button class="remove-btn" data-index="' + index + '" style="background: #B20000; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px;">Remove</button>' +
-            '</div>' +
-          '</div>';
-        });
-        
-        html += '</div>';
-        container.innerHTML = html;
-        totalEl.textContent = total.toFixed(2);
-        summary.style.display = 'block';
-        
-        document.querySelectorAll('.remove-btn').forEach(function(btn) {
-          btn.addEventListener('click', function() {
-            var index = parseInt(this.getAttribute('data-index'));
-            var cart = JSON.parse(localStorage.getItem('userCart')) || [];
-            cart.splice(index, 1);
-            localStorage.setItem('userCart', JSON.stringify(cart));
-            renderCart();
-            updateCartBadge();
-          });
-        });
-        
-        updateCartBadge();
-      }
-      
-      function updateCartBadge() {
-        var cart = JSON.parse(localStorage.getItem('userCart')) || [];
-        var badge = document.querySelector('.cart-count');
-        var total = cart.reduce(function(sum, item) { return sum + (parseInt(item.quantity) || 1); }, 0);
-        if (badge) badge.textContent = total;
-      }
-      
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', renderCart);
-      } else {
-        renderCart();
-      }
-    })();
-  </script>
+
+
+
 </body>
 </html>
