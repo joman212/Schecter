@@ -327,14 +327,14 @@ text-align: center
 .bio-images, .bio-container {
   display: flex;
   gap: 30px;
-  max-width: 900px;
   flex-wrap: wrap;
   align-items: center;
 }
 
 .bio-images img, .bio-container img, .band-image img {
   width: 100%;
-  max-width: clamp(250px, 80vw, 300px);
+  max-width: clamp(300px, 80vw, 350px);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   border-radius: 10px;
   object-fit: cover;
 }
@@ -389,12 +389,12 @@ text-align: center
 }
 
 .video-container iframe {
-  width: 100%;
-  max-width: 560px;
-  height: clamp(200px, 40vw, 315px);
-  border-radius: 10px;
-  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
-  border: none;
+    width: 100%;
+    max-width: 560px;
+    height: clamp(200px, 40vw, 315px);
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+    border: none;
 }
 
 .image-gallery {
@@ -469,7 +469,7 @@ text-align: center
 }
 
 .contact, .support {
-  text-align: center;
+  text-align: left;
   padding: 60px 20px;
   max-width: clamp(600px, 90vw, 800px);
   margin: 0 auto;
@@ -874,7 +874,7 @@ footer {
   }
   
   .video-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 2fr;
   }
 }
 
@@ -1006,7 +1006,6 @@ footer {
   
   .bio-images img {
     width: clamp(70px, 20vw, 100px);
-    max-width: 100px;
   }
   
   .gates img {
