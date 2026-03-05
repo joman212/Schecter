@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account - Schecter Guitars</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation -->
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="Schecter Guitars">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Guitars</a></li>
+        <li><a href="Accessories.html">Accessories</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="Contact.html">Contact</a></li>
+        <li><a href="login.html" id="authLink">Sign In</a></li>
+        <li>
+          <a href="cart.html" class="cart-img">
+            <img src="cart.png" alt="Cart">
+            <span class="cart-count">0</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Account Content -->
+  <main class="account-wrapper">
+    <div class="account-card">
+      <div class="account-header">
+        <div class="account-avatar">
+          <span id="accountInitials">JD</span>
+        </div>
+        <div class="account-welcome">
+          <h1 class="account-title">My Account</h1>
+          <p id="accountEmail" class="account-email">user@example.com</p>
+        </div>
+      </div>
+
+      <!-- Account Stats -->
+      <div class="account-stats">
+        <div class="stat-box">
+          <span class="stat-number" id="totalOrders">0</span>
+          <span class="stat-label">Orders</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number" id="cartItems">0</span>
+          <span class="stat-label">Cart Items</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number" id="memberSince">-</span>
+          <span class="stat-label">Member Since</span>
+        </div>
+      </div>
+
+      <!-- Account Sections -->
+      <div class="account-sections">
+        <!-- Profile Section -->
+        <div class="account-section">
+          <h2 class="section-title">Profile Information</h2>
+          <div class="profile-info">
+            <div class="info-row">
+              <span class="info-label">Name:</span>
+              <span id="profileName" class="info-value">-</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Email:</span>
+              <span id="profileEmail" class="info-value">-</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Member Since:</span>
+              <span id="profileMemberSince" class="info-value">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="account-section">
+          <h2 class="section-title">Recent Orders</h2>
+          <div id="ordersList" class="orders-list">
+            <p class="no-orders">No orders yet. <a href="products.html">Start shopping!</a></p>
+          </div>
+        </div>
+
+        <div class="account-section">
+          <h2 class="section-title">Shopping Cart</h2>
+          <div id="cartPreview" class="cart-preview">
+            <p class="empty-cart-preview">Your cart is empty. <a href="products.html">Browse products</a></p>
+          </div>
+          <a href="cart.html" class="view-cart-btn">View Full Cart</a>
+        </div>
+
+        <div class="account-actions">
+          <a href="products.html" class="action-btn primary">Continue Shopping</a>
+          <a href="cart.html" class="action-btn secondary">View Cart</a>
+          <button id="signOutBtn" class="action-btn danger">Sign Out</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Schecter Guitars. All rights reserved.</p>
+    <div class="social-media-icons">
+      <a href="#"><img src="fb.gif" alt="Facebook"></a>
+      <a href="#"><img src="twitter.png" alt="Twitter"></a>
+      <a href="#"><img src="instagram.png" alt="Instagram"></a>
+      <a href="#"><img src="youtube.png" alt="YouTube"></a>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
