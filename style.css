@@ -1069,7 +1069,6 @@ footer {
   outline: none !important;
 }
 
-/* ========== AUTH PAGES ========== */
 .auth-wrapper {
   display: flex;
   justify-content: center;
@@ -1084,7 +1083,7 @@ footer {
   border-radius: 12px;
   padding: 2.5rem;
   width: 100%;
-  max-width: 450px;
+  max-width: 550px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -1263,7 +1262,6 @@ footer {
   border: 1px solid #28a745;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .auth-card {
     padding: 2rem;
@@ -1294,7 +1292,6 @@ footer {
   }
 }
 
-/* ========== ACCOUNT PAGE ========== */
 .account-wrapper {
   display: flex;
   justify-content: center;
@@ -1350,7 +1347,6 @@ footer {
   font-size: 1rem;
 }
 
-/* Account Stats */
 .account-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1381,7 +1377,6 @@ footer {
   letter-spacing: 1px;
 }
 
-/* Account Sections */
 .account-sections {
   display: flex;
   flex-direction: column;
@@ -1402,7 +1397,6 @@ footer {
   border-bottom: 1px solid #222;
 }
 
-/* Profile Info */
 .profile-info {
   display: flex;
   flex-direction: column;
@@ -1431,7 +1425,6 @@ footer {
   font-weight: 600;
 }
 
-/* Orders List */
 .orders-list {
   display: flex;
   flex-direction: column;
@@ -1509,7 +1502,6 @@ footer {
   color: #D22730;
 }
 
-/* Cart Preview */
 .cart-preview {
   display: flex;
   flex-direction: column;
@@ -1592,7 +1584,6 @@ footer {
   background: #B9982C;
 }
 
-/* Account Actions */
 .account-actions {
   display: flex;
   gap: 1rem;
@@ -1642,7 +1633,6 @@ footer {
   background: #D22730;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .account-wrapper {
     padding: 2rem 1rem;
@@ -1699,3 +1689,24 @@ footer {
     font-size: 1.1rem;
   }
 }
+
+.cart-wrapper { background: #101820; }
+.cart-title { color: #E76E24; }
+.cart-items { background: #1A2238; }
+.cart-item { background: #222; border-bottom: 1px solid #222; }
+.cart-item:hover { background: rgba(34,34,34,0.8); }
+.cart-item-image { width: 200px; height: 200px; object-fit: contain; border-radius: 10px; background: #1A2238; }
+.cart-item-info h3 { color: #E76E24; }
+.cart-item-info a:hover { color: #D22730; }
+.cart-item-price { color: #D4AF37; }
+.remove-btn { background: #B20000; }
+.remove-btn:hover { background: #D22730; }
+.cart-item-subtotal strong { color: #D4AF37; }
+.cart-summary { background: #1A2238; }
+.cart-total { color: #ffffff; }
+.cart-total span { color: #D4AF37; }
+.checkout-btn { background: #CABBA3; color: #000000; }
+.checkout-btn:hover { background: #B9982C; color: #000000; }
+.empty-cart { background: #1A2238; }
+.empty-cart a:hover { color: #D4AF37; }
+.cart-count { background: #E76E24; }
