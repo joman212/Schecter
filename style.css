@@ -184,13 +184,20 @@ text-align: center
 }
 
 .guitar-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
   gap: 20px;
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  justify-content: center;
+}
+
+.guitar {
+  text-align: center;
+  width: 300px;
+  flex-shrink: 0;
 }
 
 .guitar {
@@ -209,7 +216,6 @@ text-align: center
 
 .guitar img {
   width: 100%;
-  height: auto;
   max-height: 400px;
   object-fit: cover;
   border-radius: 8px;
@@ -1708,3 +1714,28 @@ footer {
 .empty-cart { background: #1A2238; }
 .empty-cart a:hover { color: #D4AF37; }
 .cart-count { background: #E76E24; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+.add-to-cart:disabled {
+  background: #555 !important;
+  color: #888 !important;
+  cursor: not-allowed !important;
+  opacity: 0.7 !important;
+  transform: none !important;
+}
+
+.notify-btn {
+  background: #1A2238 !important;
+  color: #E76E24 !important;
+  border: 2px solid #E76E24 !important;
+  transition: all 0.3s ease;
+}
+
+.notify-btn:hover {
+  background: #E76E24 !important;
+  color: #000000 !important;
+}
