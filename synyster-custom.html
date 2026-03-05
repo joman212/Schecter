@@ -116,29 +116,5 @@
 
 <script src="main.js"></script>
 
-  <script>
-    (function() {
-      const mainImage = document.getElementById('mainProductImage');
-      const thumbnails = document.querySelectorAll('.thumbnails img');
-      if (!mainImage || thumbnails.length === 0) return;
-      thumbnails.forEach(function(thumb) {
-        thumb.addEventListener('click', function() {
-          const newSrc = this.dataset.full || this.src;
-          mainImage.style.opacity = '0';
-          setTimeout(function() {
-            mainImage.src = newSrc;
-            mainImage.onload = function() {
-              mainImage.style.opacity = '1';
-            };
-          }, 300);
-          thumbnails.forEach(function(t) { t.classList.remove('active'); });
-          this.classList.add('active');
-        });
-      });
-      if (thumbnails[0]) {
-        thumbnails[0].classList.add('active');
-      }
-    })();
-  </script>
 </body>
 </html>

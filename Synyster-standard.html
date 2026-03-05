@@ -30,7 +30,6 @@
         </nav>
     </header>
 
-
     <section class="product-details">
         <div class="image-gallery">
         <input type="radio" id="img21" name="gallery" checked>
@@ -42,18 +41,10 @@
             <img src="Synyster-standard.avif" alt="Synyster standard">
         </div>
         <div class="thumbnails">
-            <label for="img21">
-                <img src="synyster-standard.avif" alt="Synyster">
-            </label>
-            <label for="img22">
-                <img src="synyster-standard2.avif" alt="Synyster Front View">
-            </label>
-            <label for="img23">
-                <img src="synyster-standard3.avif" alt="Synyster Side View">
-            </label>
-            <label for="img24">
-                <img src="synyster-standard4.avif" alt="Synyster Back View">
-            </label>
+            
+            
+            
+            
         </div>
     </div>
         <div class="details">
@@ -114,31 +105,8 @@
         </a>
     </div>
     </footer>
-<script src="main.js"></script>
 
-  <script>
-    (function() {
-      const mainImage = document.getElementById('mainProductImage');
-      const thumbnails = document.querySelectorAll('.thumbnails img');
-      if (!mainImage || thumbnails.length === 0) return;
-      thumbnails.forEach(function(thumb) {
-        thumb.addEventListener('click', function() {
-          const newSrc = this.dataset.full || this.src;
-          mainImage.style.opacity = '0';
-          setTimeout(function() {
-            mainImage.src = newSrc;
-            mainImage.onload = function() {
-              mainImage.style.opacity = '1';
-            };
-          }, 300);
-          thumbnails.forEach(function(t) { t.classList.remove('active'); });
-          this.classList.add('active');
-        });
-      });
-      if (thumbnails[0]) {
-        thumbnails[0].classList.add('active');
-      }
-    })();
-  </script>
+  
+  <script src="main.js"></script>
 </body>
 </html>
