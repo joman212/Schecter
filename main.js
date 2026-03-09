@@ -4,6 +4,27 @@
   if (window._schecterInitialized) return;
   window._schecterInitialized = true;
 
+  function formatPrice(price) {
+    return parseFloat(price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+  
+  function getCart() {
+    return JSON.parse(localStorage.getItem('userCart')) || [];
+  }
+  
+  function saveCart(cart) {
+    localStorage.setItem('userCart', JSON.stringify(cart));
+  }
+
+  function showMessage(element, text, type) {
+    if (!element) return;
+    element.textContent = text;
+    element.className = 'auth-message ' + type;
+    element.style.display = 'block';
+    element.style.color = type === 'success' ? '#28a745' : '#dc3545';
+    setTimeout(() => { element.style.display = 'none'; }, 5000);
+  }
+
   window.isLoggedIn = function() {
     return !!(localStorage.getItem('schecterCurrentUser') || 
               sessionStorage.getItem('schecterCurrentUser'));
@@ -23,18 +44,6 @@
       window.location.href = 'index.html';
     }
   };
-
-  function formatPrice(price) {
-    return parseFloat(price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
-  
-  function getCart() {
-    return JSON.parse(localStorage.getItem('userCart')) || [];
-  }
-  
-  function saveCart(cart) {
-    localStorage.setItem('userCart', JSON.stringify(cart));
-  }
 
   window.updateCartBadge = function() {
     const cart = getCart();
@@ -69,7 +78,6 @@
     cart.splice(index, 1);
     saveCart(cart);
     if (typeof window.renderCartDisplay === 'function') window.renderCartDisplay();
-    window.updateCartBadge();
   };
   
   window.changeQuantity = function(index, delta) {
@@ -78,7 +86,6 @@
     cart[index].quantity = Math.max(1, (parseInt(cart[index].quantity) || 1) + delta);
     saveCart(cart);
     if (typeof window.renderCartDisplay === 'function') window.renderCartDisplay();
-    window.updateCartBadge();
   };
 
   window.renderCartDisplay = function() {
@@ -87,12 +94,14 @@
     const totalEl = document.getElementById('cartTotal');
     
     if (!container) return;
+    
     const cart = getCart();
     
     if (cart.length === 0) {
       container.innerHTML = '<div class="empty-cart"><p style="color:#E5E5E5">Your cart is empty.</p><p><a href="products.html" style="color:#E76E24">→ Continue Shopping</a></p></div>';
       if (summary) summary.style.display = 'none';
       if (totalEl) totalEl.textContent = '0.00';
+      window.updateCartBadge();
       return;
     }
     
@@ -162,12 +171,11 @@
       if (user) {
         signUpLink.textContent = 'My Account';
         signUpLink.href = 'account.html';
-        signUpLink.onclick = null;
       } else {
         signUpLink.textContent = 'Sign Up';
         signUpLink.href = 'signup.html';
-        signUpLink.onclick = null;
       }
+      signUpLink.onclick = null;
     }
     
     const authLink = document.getElementById('authLink');
@@ -187,6 +195,17 @@
         authLink.href = 'login.html';
         authLink.onclick = null;
       }
+    }
+    
+    const signOutBtn = document.getElementById('signOutBtn');
+    if (signOutBtn) {
+      signOutBtn.onclick = function(e) {
+        e.preventDefault();
+        if (confirm('Sign out?')) {
+          window.logout();
+          window.location.href = 'index.html';
+        }
+      };
     }
   };
 
@@ -231,137 +250,104 @@
   
   window._reinit = function() { 
     attachListeners(); 
-    window.updateCartBadge(); 
     if (document.getElementById('cartContainer')) window.renderCartDisplay(); 
   };
-})();
 
-    (function() {
-      const form = document.getElementById('loginForm');
-      const msg = document.getElementById('loginMessage');
-      if (!form) return;
-      
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value;
-        const remember = document.getElementById('remember').checked;
-        
-        if (!email || !password) {
-          showMessage('Please fill in all fields', 'error');
-          return;
-        }
-        
-        const users = JSON.parse(localStorage.getItem('schecterUsers')) || [];
-        const user = users.find(u => u.email === email && u.password === password);
-        
-        if (user) {
-          const sessionData = { email: user.email, name: user.firstName + ' ' + user.lastName };
-          if (remember) {
-            localStorage.setItem('schecterCurrentUser', JSON.stringify(sessionData));
-          } else {
-            sessionStorage.setItem('schecterCurrentUser', JSON.stringify(sessionData));
-          }
-          
-          showMessage('Login successful! Redirecting...', 'success');
-          setTimeout(() => { window.location.href = 'index.html'; }, 1500);
-        } else {
-          showMessage('Invalid email or password', 'error');
-        }
-      });
-      
-      function showMessage(text, type) {
-        msg.textContent = text;
-        msg.className = 'auth-message ' + type;
-        msg.style.display = 'block';
-        msg.style.color = type === 'success' ? '#28a745' : '#dc3545';
-        setTimeout(() => { msg.style.display = 'none'; }, 5000);
-      }
-      
-    })();
-
-        (function() {
-      const form = document.getElementById('signupForm');
-      const msg = document.getElementById('signupMessage');
-      if (!form) return;
-      
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const firstName = document.getElementById('firstName').value.trim();
-        const lastName = document.getElementById('lastName').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-        const terms = document.getElementById('terms').checked;
-        
-        if (!firstName || !lastName || !email || !password || !confirmPassword) {
-          showMessage('Please fill in all fields', 'error');
-          return;
-        }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          showMessage('Please enter a valid email', 'error');
-          return;
-        }
-        if (password.length < 6) {
-          showMessage('Password must be at least 6 characters', 'error');
-          return;
-        }
-        if (password !== confirmPassword) {
-          showMessage('Passwords do not match', 'error');
-          return;
-        }
-        if (!terms) {
-          showMessage('Please agree to the Terms of Service', 'error');
-          return;
-        }
-        
-        const users = JSON.parse(localStorage.getItem('schecterUsers')) || [];
-        if (users.find(u => u.email === email)) {
-          showMessage('An account with this email already exists', 'error');
-          return;
-        }
-        
-        const newUser = {
-          id: Date.now().toString(),
-          firstName, lastName, email, password,
-          createdAt: new Date().toISOString(),
-          cart: []
-        };
-        users.push(newUser);
-        localStorage.setItem('schecterUsers', JSON.stringify(users));
-        
-        localStorage.setItem('schecterCurrentUser', JSON.stringify({
-          email: newUser.email,
-          name: firstName + ' ' + lastName
-        }));
-        
-        showMessage('Account created! Redirecting...', 'success');
-        setTimeout(() => { window.location.href = 'index.html'; }, 1500);
-      });
-      
-      function showMessage(text, type) {
-        msg.textContent = text;
-        msg.className = 'auth-message ' + type;
-        msg.style.display = 'block';
-        msg.style.color = type === 'success' ? '#28a745' : '#dc3545';
-        setTimeout(() => { msg.style.display = 'none'; }, 5000);
-      }
-      
-    })();
-
-      const signOutBtn = document.getElementById('signOutBtn');
-  if (signOutBtn) {
-    signOutBtn.addEventListener('click', function() {
-      window.location.href = 'logout.html';
-    });
-  }
-  
-  const authLink = document.getElementById('authLink');
-  if (authLink) {
-    authLink.addEventListener('click', function(e) {
+  (function() {
+    const form = document.getElementById('loginForm');
+    const msg = document.getElementById('loginMessage');
+    if (!form) return;
+    
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
-      window.location.href = 'logout.html';
+      
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const remember = document.getElementById('remember').checked;
+      
+      if (!email || !password) {
+        showMessage(msg, 'Please fill in all fields', 'error');
+        return;
+      }
+      
+      const users = JSON.parse(localStorage.getItem('schecterUsers')) || [];
+      const user = users.find(u => u.email === email && u.password === password);
+      
+      if (user) {
+        const sessionData = { email: user.email, name: user.firstName + ' ' + user.lastName };
+        if (remember) {
+          localStorage.setItem('schecterCurrentUser', JSON.stringify(sessionData));
+        } else {
+          sessionStorage.setItem('schecterCurrentUser', JSON.stringify(sessionData));
+        }
+        
+        showMessage(msg, 'Login successful! Redirecting...', 'success');
+        setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+      } else {
+        showMessage(msg, 'Invalid email or password', 'error');
+      }
     });
-  }
+  })();
+
+  (function() {
+    const form = document.getElementById('signupForm');
+    const msg = document.getElementById('signupMessage');
+    if (!form) return;
+    
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const terms = document.getElementById('terms').checked;
+      
+      if (!firstName || !lastName || !email || !password || !confirmPassword) {
+        showMessage(msg, 'Please fill in all fields', 'error');
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showMessage(msg, 'Please enter a valid email', 'error');
+        return;
+      }
+      if (password.length < 6) {
+        showMessage(msg, 'Password must be at least 6 characters', 'error');
+        return;
+      }
+      if (password !== confirmPassword) {
+        showMessage(msg, 'Passwords do not match', 'error');
+        return;
+      }
+      if (!terms) {
+        showMessage(msg, 'Please agree to the Terms of Service', 'error');
+        return;
+      }
+      
+      const users = JSON.parse(localStorage.getItem('schecterUsers')) || [];
+      if (users.find(u => u.email === email)) {
+        showMessage(msg, 'An account with this email already exists', 'error');
+        return;
+      }
+      
+      const newUser = {
+        id: Date.now().toString(),
+        firstName, lastName, email, password,
+        createdAt: new Date().toISOString(),
+        cart: []
+      };
+      users.push(newUser);
+      localStorage.setItem('schecterUsers', JSON.stringify(users));
+      
+      localStorage.setItem('schecterCurrentUser', JSON.stringify({
+        email: newUser.email,
+        name: firstName + ' ' + lastName
+      }));
+      
+      showMessage(msg, 'Account created! Redirecting...', 'success');
+      setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+    });
+  })();
+
+})();
