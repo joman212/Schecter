@@ -163,51 +163,55 @@
     });
   }
 
-  window.updateAuthNav = function() {
-    const user = window.getCurrentUser();
-    
-    const signUpLink = document.querySelector('a[href="signup.html"]');
-    if (signUpLink) {
-      if (user) {
-        signUpLink.textContent = 'My Account';
-        signUpLink.href = 'account.html';
+window.updateAuthNav = function() {
+  const user = window.getCurrentUser();
+  
+  document.querySelectorAll('a[href="signup.html"], a[href="login.html"]').forEach(link => {
+    if (user) {
+      link.textContent = 'My Account';
+      link.href = 'account.html';
+    } else {
+      if (link.href.includes('signup.html')) {
+        link.textContent = 'Sign Up';
+        link.href = 'signup.html';
       } else {
-        signUpLink.textContent = 'Sign Up';
-        signUpLink.href = 'signup.html';
-      }
-      signUpLink.onclick = null;
-    }
-    
-    const authLink = document.getElementById('authLink');
-    if (authLink) {
-      if (user) {
-        authLink.textContent = 'Sign Out';
-        authLink.href = '#';
-        authLink.onclick = function(e) {
-          e.preventDefault();
-          if (confirm('Sign out?')) {
-            window.logout();
-            window.location.reload();
-          }
-        };
-      } else {
-        authLink.textContent = 'Sign In';
-        authLink.href = 'login.html';
-        authLink.onclick = null;
+        link.textContent = 'Sign In';
+        link.href = 'login.html';
       }
     }
-    
-    const signOutBtn = document.getElementById('signOutBtn');
-    if (signOutBtn) {
-      signOutBtn.onclick = function(e) {
+    link.onclick = null;
+  });
+  
+  const authLink = document.getElementById('authLink');
+  if (authLink) {
+    if (user) {
+      authLink.textContent = 'Sign Out';
+      authLink.href = '#';
+      authLink.onclick = function(e) {
         e.preventDefault();
         if (confirm('Sign out?')) {
           window.logout();
-          window.location.href = 'index.html';
+          window.location.reload();
         }
       };
+    } else {
+      authLink.textContent = 'Sign In';
+      authLink.href = 'login.html';
+      authLink.onclick = null;
     }
-  };
+  }
+  
+  const signOutBtn = document.getElementById('signOutBtn');
+  if (signOutBtn) {
+    signOutBtn.onclick = function(e) {
+      e.preventDefault();
+      if (confirm('Sign out?')) {
+        window.logout();
+        window.location.href = 'index.html';
+      }
+    };
+  }
+};
 
   function attachListeners() {
     document.querySelectorAll('.add-to-cart').forEach(btn => {
