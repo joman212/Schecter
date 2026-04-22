@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+    <title>Schecter Guitars</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../images/icon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="myOffcanvasNav" class="oc-sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="logo">
+      <img src="images/logo.png" alt="Schecter Guitars">
+    </div>
+    <a href="index.html">Home</a>
+    <a href="html/products.html">Guitars</a>
+    <a href="html/Accessories.html">Accessories</a>
+    <a href="html/about.html">About</a>
+    <a href="html/support.html">Support</a>
+    <a href="html/Contact.html">Contact</a>
+    <a href="html/login.html">Sign In</a>
+    <li>
+        <a href="html/cart.html" class="cart-img">
+            <img src="images/cart.png" alt="Cart">
+            <span class="cart-count">0</span>
+        </a>
+    </li>
+  </div>
+
+  <header>
+    <span style="font-size:30px;cursor:pointer;color:#fff;margin-right:15px;" onclick="openNav()">&#9776;</span>
+  </header>
+
+  <main class="auth-wrapper">
+    <div class="auth-card">
+      <h1 class="auth-title">Sign Out</h1>
+      <p class="auth-subtitle">Are you sure you want to sign out?</p>
+      
+      <div id="userInfo" class="user-info" style="margin: 20px 0; padding: 15px; background: #101820; border-radius: 8px; text-align: center;">
+        <p style="color: #E5E5E5; margin: 5px 0;">Signed in as:</p>
+        <p id="userEmail" style="color: #E76E24; font-weight: 600; margin: 5px 0;"></p>
+      </div>
+      
+      <div class="logout-actions" style="display: flex; gap: 15px; justify-content: center; margin-top: 25px;">
+        <button id="confirmLogout" class="auth-btn" style="background: #B20000; min-width: 150px;">Sign Out</button>
+        <a href="../html/index.html" class="auth-btn" style="background: #CABBA3; color: #000000; display: inline-block; text-decoration: none; min-width: 150px; text-align: center;">Cancel</a>
+      </div>
+      
+      <div id="logoutMessage" class="auth-message" style="display: none; margin-top: 20px;"></div>
+    </div>
+  </main>
+
+    <footer>
+        <p>&copy; 2026 Schecter Guitars. All rights reserved.</p>
+        <div class="social-media-icons">
+        <a href="https://www.facebook.com/SchecterGuitarResearch" target="_blank" aria-label="Facebook">
+            <img src="../images/fb.gif" alt="Facebook">
+        </a>
+        <a href="https://twitter.com/SchecterGuitars" target="_blank" aria-label="Twitter">
+            <img src="../images/twitter.png" alt="Twitter">
+        </a>
+        <a href="https://www.instagram.com/schecterguitarsofficial/" target="_blank" aria-label="Instagram">
+            <img src="../images/instagram.png" alt="Instagram">
+        </a>
+        <a href="https://www.youtube.com/user/SchecterGuitars" target="_blank" aria-label="YouTube">
+            <img src="../images/youtube.png" alt="YouTube">
+        </a>
+    </div>
+    </footer>
+<script src="../js/main.js"></script>
+
+  <script>
+    (function() {
+      const confirmBtn = document.getElementById('confirmLogout');
+      const messageEl = document.getElementById('logoutMessage');
+      const userEmailEl = document.getElementById('userEmail');
+      
+      const currentUser = localStorage.getItem('schecterCurrentUser') || 
+                         sessionStorage.getItem('schecterCurrentUser');
+      
+      if (!currentUser) {
+        window.location.href = '../html/login.html';
+        return;
+      }
+      
+      const userData = JSON.parse(currentUser);
+      if (userEmailEl) {
+        userEmailEl.textContent = userData.email || userData.name || 'User';
+      }
+      
+      if (confirmBtn) {
+        confirmBtn.addEventListener('click', function() {
+          localStorage.removeItem('schecterCurrentUser');
+          sessionStorage.removeItem('schecterCurrentUser');
+          
+          if (messageEl) {
+            messageEl.textContent = 'You have been successfully signed out.';
+            messageEl.className = 'auth-message success';
+            messageEl.style.display = 'block';
+            messageEl.style.color = '#28a745';
+          }
+          
+          confirmBtn.disabled = true;
+          confirmBtn.textContent = 'Signing Out...';
+          confirmBtn.style.background = '#555';
+          
+          setTimeout(() => {
+            window.location.href = '../html/index.html';
+          }, 1500);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

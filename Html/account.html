@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+    <title>Schecter Guitars</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../images/icon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="myOffcanvasNav" class="oc-sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="logo">
+      <img src="images/logo.png" alt="Schecter Guitars">
+    </div>
+    <a href="index.html">Home</a>
+    <a href="html/products.html">Guitars</a>
+    <a href="html/Accessories.html">Accessories</a>
+    <a href="html/about.html">About</a>
+    <a href="html/support.html">Support</a>
+    <a href="html/Contact.html">Contact</a>
+    <a href="html/login.html">Sign In</a>
+    <li>
+        <a href="html/cart.html" class="cart-img">
+            <img src="images/cart.png" alt="Cart">
+            <span class="cart-count">0</span>
+        </a>
+    </li>
+  </div>
+
+  <header>
+    <span style="font-size:30px;cursor:pointer;color:#fff;margin-right:15px;" onclick="openNav()">&#9776;</span>
+  </header>
+
+  <main class="account-wrapper">
+    <div class="account-card">
+      <div class="account-header">
+        <div class="account-avatar">
+          <span id="accountInitials">JD</span>
+        </div>
+        <div class="account-welcome">
+          <h1 class="account-title">My Account</h1>
+          <p id="accountEmail" class="account-email">user@example.com</p>
+        </div>
+      </div>
+
+      <div class="account-stats">
+        <div class="stat-box">
+          <span class="stat-number" id="totalOrders">0</span>
+          <span class="stat-label">Orders</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number" id="cartItems">0</span>
+          <span class="stat-label">Cart Items</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number" id="memberSince">-</span>
+          <span class="stat-label">Member Since</span>
+        </div>
+      </div>
+
+      <div class="account-sections">
+        <div class="account-section">
+          <h2 class="section-title">Profile Information</h2>
+          <div class="profile-info">
+            <div class="info-row">
+              <span class="info-label">Name:</span>
+              <span id="profileName" class="info-value">-</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Email:</span>
+              <span id="profileEmail" class="info-value">-</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Member Since:</span>
+              <span id="profileMemberSince" class="info-value">-</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="account-section">
+          <h2 class="section-title">Recent Orders</h2>
+          <div id="ordersList" class="orders-list">
+            <p class="no-orders">No orders yet. <a href="../html/products.html">Start shopping!</a></p>
+          </div>
+        </div>
+
+        <div class="account-section">
+          <h2 class="section-title">Shopping Cart</h2>
+          <div id="cartPreview" class="cart-preview">
+            <p class="empty-cart-preview">Your cart is empty. <a href="../html/products.html">Browse products</a></p>
+          </div>
+          <a href="../html/cart.html" class="view-cart-btn">View Full Cart</a>
+        </div>
+
+        <div class="account-actions">
+          <a href="../html/products.html" class="action-btn primary">Continue Shopping</a>
+          <a href="../html/cart.html" class="action-btn secondary">View Cart</a>
+          <button id="signOutBtn" class="action-btn danger">Sign Out</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+    <footer>
+        <p>&copy; 2026 Schecter Guitars. All rights reserved.</p>
+        <div class="social-media-icons">
+        <a href="https://www.facebook.com/SchecterGuitarResearch" target="_blank" aria-label="Facebook">
+            <img src="../images/fb.gif" alt="Facebook">
+        </a>
+        <a href="https://twitter.com/SchecterGuitars" target="_blank" aria-label="Twitter">
+            <img src="../images/twitter.png" alt="Twitter">
+        </a>
+        <a href="https://www.instagram.com/schecterguitarsofficial/" target="_blank" aria-label="Instagram">
+            <img src="../images/instagram.png" alt="Instagram">
+        </a>
+        <a href="https://www.youtube.com/user/SchecterGuitars" target="_blank" aria-label="YouTube">
+            <img src="../images/youtube.png" alt="YouTube">
+        </a>
+    </div>
+    </footer>
+<script src="../js/main.js"></script>
+
+</body>
+</html>

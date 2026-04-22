@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+    <title>Schecter Guitars</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../images/icon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="myOffcanvasNav" class="oc-sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="logo">
+      <img src="images/logo.png" alt="Schecter Guitars">
+    </div>
+    <a href="index.html">Home</a>
+    <a href="html/products.html">Guitars</a>
+    <a href="html/Accessories.html">Accessories</a>
+    <a href="html/about.html">About</a>
+    <a href="html/support.html">Support</a>
+    <a href="html/Contact.html">Contact</a>
+    <a href="html/login.html">Sign In</a>
+    <li>
+        <a href="html/cart.html" class="cart-img">
+            <img src="images/cart.png" alt="Cart">
+            <span class="cart-count">0</span>
+        </a>
+    </li>
+  </div>
+
+  <header>
+    <span style="font-size:30px;cursor:pointer;color:#fff;margin-right:15px;" onclick="openNav()">&#9776;</span>
+  </header>
+
+  <main class="auth-wrapper">
+    <div class="auth-card">
+      <h1 class="auth-title">Welcome Back</h1>
+      <p class="auth-subtitle">Sign in to your Schecter account</p>
+      
+      <form id="loginForm" class="auth-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" required placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required placeholder="••••••••">
+        </div>
+        <div class="form-options">
+          <label><input type="checkbox" id="remember"> Remember me</label>
+          <a href="#" class="forgot-link">Forgot password?</a>
+        </div>
+        <button type="submit" class="auth-btn">Sign In</button>
+        <p class="auth-switch">Don't have an account? <a href="../html/signup.html">Create one</a></p>
+      </form>
+      <div id="loginMessage" class="auth-message"></div>
+    </div>
+  </main>
+    <footer>
+        <p>&copy; 2026 Schecter Guitars. All rights reserved.</p>
+        <div class="social-media-icons">
+        <a href="https://www.facebook.com/SchecterGuitarResearch" target="_blank" aria-label="Facebook">
+            <img src="../images/fb.gif" alt="Facebook">
+        </a>
+        <a href="https://twitter.com/SchecterGuitars" target="_blank" aria-label="Twitter">
+            <img src="../images/twitter.png" alt="Twitter">
+        </a>
+        <a href="https://www.instagram.com/schecterguitarsofficial/" target="_blank" aria-label="Instagram">
+            <img src="../images/instagram.png" alt="Instagram">
+        </a>
+        <a href="https://www.youtube.com/user/SchecterGuitars" target="_blank" aria-label="YouTube">
+            <img src="../images/youtube.png" alt="YouTube">
+        </a>
+    </div>
+    </footer>
+<script src="../js/main.js"></script>
+
+</body>
+</html>

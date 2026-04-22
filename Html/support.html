@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+    <title>Schecter Guitars</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../images/icon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="myOffcanvasNav" class="oc-sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="logo">
+      <img src="images/logo.png" alt="Schecter Guitars">
+    </div>
+    <a href="index.html">Home</a>
+    <a href="html/products.html">Guitars</a>
+    <a href="html/Accessories.html">Accessories</a>
+    <a href="html/about.html">About</a>
+    <a href="html/support.html">Support</a>
+    <a href="html/Contact.html">Contact</a>
+    <a href="html/login.html">Sign In</a>
+    <li>
+        <a href="html/cart.html" class="cart-img">
+            <img src="images/cart.png" alt="Cart">
+            <span class="cart-count">0</span>
+        </a>
+    </li>
+  </div>
+
+  <header>
+    <span style="font-size:30px;cursor:pointer;color:#fff;margin-right:15px;" onclick="openNav()">&#9776;</span>
+  </header>
+
+<div class="sideNav">
+    <a href="https://instagram.com/schecterguitarsofficial" id="instagram" target="_blank" rel="noopener">
+        <img src="../images/instagram.png" alt="Instagram"><i class="fab fa-instagram"></i><span>Instagram</span>
+    </a>
+    <a href="https://facebook.com/schecterguitarsofficial" id="facebook" target="_blank" rel="noopener">
+        <img src="../images/fb.gif" alt="Facebook"><i class="fab fa-facebook-f"></i><span>Facebook</span>
+    </a>
+    <a href="https://twitter.com/SchecterGuitars" id="twitter" target="_blank" rel="noopener">
+        <img src="../images/twitter.png" alt="Twitter"><i class="fab fa-x-twitter"></i><span>Twitter</span> 
+    </a>
+    <a href="https://youtube.com/schecterguitarresearch" id="youtube" target="_blank" rel="noopener">
+        <img src="../images/youtube.png" alt="YouTube"><i class="fab fa-youtube"></i><span>YouTube</span>
+    </a>
+</div>
+
+    <section class="support">
+        <h1>Support Center</h1>
+        <p>Need help? Find answers to common questions below or reach out to us directly.</p>
+
+        <div class="support-hours">
+            <h3>Support Hours:</h3>
+            <p><strong>Monday - Friday:</strong> 9:00 AM - 5:00 PM PST</p>
+            <p><strong>Saturday - Sunday:</strong> Closed</p>
+            <p>We aim to respond to all inquiries within <strong>24-48 hours.</strong></p>
+        </div>
+
+        <div class="faq">
+            <h2>Frequently Asked Questions (FAQs)</h2>
+                <h3>What is the return policy?</h3>
+                <p>We accept returns within 30 days of purchase. The item must be in original condition.</p>
+        
+                <h3>How long does shipping take?</h3>
+                <p>Orders are processed within 1-2 business days. Standard shipping takes 5-7 days.</p>
+
+                <h3>Do you offer international shipping?</h3>
+                <p>Yes! We ship to most countries worldwide. Shipping rates are calculated at checkout.</p>
+
+                <h3>How do I track my order?</h3>
+                <p>Once your order ships, you’ll receive a tracking number via email.</p>
+        </div>
+
+        <div class="contact-form">
+            <h2>Contact Support</h2>
+            <form action="../html/sc.html" method="POST">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">How can we help? *</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+
+                <a href="../html/sc.html" class="btn">Submit</a>
+            </form>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2026 Schecter Guitars. All rights reserved.</p>
+        <div class="social-media-icons">
+        <a href="https://www.facebook.com/SchecterGuitarResearch" target="_blank" aria-label="Facebook">
+            <img src="../images/fb.gif" alt="Facebook">
+        </a>
+        <a href="https://twitter.com/SchecterGuitars" target="_blank" aria-label="Twitter">
+            <img src="../images/twitter.png" alt="Twitter">
+        </a>
+        <a href="https://www.instagram.com/schecterguitarsofficial/" target="_blank" aria-label="Instagram">
+            <img src="../images/instagram.png" alt="Instagram">
+        </a>
+        <a href="https://www.youtube.com/user/SchecterGuitars" target="_blank" aria-label="YouTube">
+            <img src="../images/youtube.png" alt="YouTube">
+        </a>
+    </div>
+    </footer>
+<script src="../js/main.js"></script>
+
+</body>
+</html>
