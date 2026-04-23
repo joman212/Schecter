@@ -1961,7 +1961,7 @@ body {
 .support,
 .cart-wrapper,
 footer {
-  opacity: 0;
+  opacity: 1;
   transform: translateY(24px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
@@ -2341,3 +2341,4 @@ a:hover::after {
 .support {
   animation: fadeIn 0.6s ease forwards;
 }
+

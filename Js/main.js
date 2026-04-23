@@ -500,3 +500,4 @@ window.animateCarouselSlide = function(direction) {
     
   }, 300);
 };
+
