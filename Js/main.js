@@ -463,3 +463,40 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.featured, .reviews, .bio, .featured-videos')
   .forEach(el => observer.observe(el));
+
+window.animateCarouselSlide = function(direction) {
+  const track = document.querySelector('.carousel-track');
+  const slides = document.querySelectorAll('.carousel-slide');
+  const activeSlide = document.querySelector('.carousel-slide.active');
+  
+  if (!activeSlide) return;
+  
+  activeSlide.classList.add('fade-out');
+  
+  setTimeout(() => {
+    const currentIndex = Array.from(slides).indexOf(activeSlide);
+    let nextIndex = direction === 'next' 
+      ? (currentIndex + 1) % slides.length 
+      : (currentIndex - 1 + slides.length) % slides.length;
+    
+    const nextSlide = slides[nextIndex];
+    
+    activeSlide.classList.remove('active', 'fade-out');
+    nextSlide.classList.add('active');
+    
+    if (direction === 'next') {
+      nextSlide.classList.add('slide-next');
+    } else {
+      nextSlide.classList.add('slide-prev');
+    }
+    
+    document.querySelectorAll('.dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === nextIndex);
+    });
+    
+    setTimeout(() => {
+      nextSlide.classList.remove('slide-next', 'slide-prev');
+    }, 500);
+    
+  }, 300);
+};
