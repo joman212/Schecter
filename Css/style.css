@@ -1837,6 +1837,8 @@ footer {
   height: 100%;
   overflow: auto;
   background-color: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
   animation: fadeIn 0.3s ease;
 }
 
@@ -1851,20 +1853,27 @@ footer {
   position: relative;
   animation: slideDown 0.4s ease;
   border: 2px solid var(--orange);
+  
 }
 
 .modal-close {
   position: absolute;
-  top: 15px;
-  right: 25px;
-  font-size: 32px;
-  color: var(--text-white);
+  top: 10px;
+  right: 18px;
+  color: #aaa;
+  font-size: 36px;
+  font-weight: bold;
   cursor: pointer;
-  transition: color 0.3s;
+  transition: all 0.2s ease;
+  line-height: 1;
+  user-select: none;
+  z-index: 10;
 }
 
-.modal-close:hover {
+.modal-close:hover, .modal-close:focus {
   color: var(--orange);
+  transform: scale(1.1);
+  outline: none;
 }
 
 .modal-image {
@@ -1873,6 +1882,7 @@ footer {
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 20px;
+  margin: 20px 0 25px;
 }
 
 .modal h3 {
