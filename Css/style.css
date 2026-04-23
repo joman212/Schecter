@@ -1658,7 +1658,6 @@ footer {
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* ===== CAROUSEL (VANILLA JS - PDF COMPLIANT) ===== */
 .carousel-section {
   padding: 60px 20px;
   background: var(--bg-dark);
@@ -1698,7 +1697,7 @@ footer {
 .carousel-slide img {
   width: 100%;
   height: 400px;
-  object-fit: cover;
+  object-fit: scale-down;
   border-radius: 8px;
 }
 
@@ -1725,7 +1724,6 @@ footer {
   color: var(--text-light);
 }
 
-/* Navigation Buttons */
 .carousel-btn {
   position: absolute;
   top: 50%;
@@ -1750,7 +1748,6 @@ footer {
 .carousel-btn.prev { left: 15px; }
 .carousel-btn.next { right: 15px; }
 
-/* Dot Indicators */
 .carousel-dots {
   position: absolute;
   bottom: 15px;
@@ -1773,10 +1770,499 @@ footer {
 .dot.active { background: var(--orange); }
 .dot:hover { background: var(--gold); }
 
-/* Responsive */
 @media (max-width: 768px) {
   .carousel-slide img { height: 300px; }
   .carousel-caption { padding: 15px 20px; bottom: 20px; }
   .carousel-caption h3 { font-size: 1.2rem; }
   .carousel-btn { width: 40px; height: 40px; font-size: 1.5rem; }
+}
+
+.btn, .checkout-btn, .auth-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:active, .checkout-btn:active {
+  transform: scale(0.98) translateY(1px);
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255,255,255,0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.btn:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+.featured, .reviews, .bio, .featured-videos {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.featured.visible, .reviews.visible, 
+.bio.visible, .featured-videos.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.guitar {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideUp 0.5s ease forwards;
+}
+
+.guitar:nth-child(1) { animation-delay: 0.1s; }
+.guitar:nth-child(2) { animation-delay: 0.2s; }
+.guitar:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.main-text h1, .main-text p {
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.main-text p {
+  animation-delay: 0.2s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.video-start::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(180deg, rgba(16,24,32,0.3) 0%, rgba(16,24,32,0.8) 100%);
+  z-index: 1;
+}
+
+.cart-item {
+  animation: slideInRight 0.4s ease forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.cart-item.removing {
+  animation: slideOutRight 0.3s ease forwards;
+}
+
+@keyframes slideOutRight {
+  to {
+    opacity: 0;
+    transform: translateX(50px);
+    height: 0;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(231, 110, 36, 0.2);
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+}
+
+.form-group:focus-within label {
+  color: var(--orange);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+.main-image img {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.main-image img.fade-out {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.thumbnails img {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thumbnails img.active {
+  box-shadow: 0 0 0 2px var(--orange), 0 4px 12px rgba(231, 110, 36, 0.4);
+}
+
+.social-media-icons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.social-media-icons a:hover {
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.social-media-icons a:active {
+  transform: translateY(-1px) scale(1.05);
+}
+
+/* ============================================
+   Schecter - Safe Animation Add-On
+   Append this to the END of your style.css
+   ============================================ */
+
+
+/* --- Page Load Animation --- */
+@keyframes pageLoad {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+body {
+  animation: pageLoad 0.8s ease forwards;
+}
+
+
+/* --- Scroll Reveal for Sections --- */
+.featured,
+.reviews,
+.about,
+.bio,
+.featured-videos,
+.contact,
+.checkout,
+.signup,
+.support,
+.cart-wrapper,
+footer {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.featured.visible,
+.reviews.visible,
+.about.visible,
+.bio.visible,
+.featured-videos.visible,
+.contact.visible,
+.checkout.visible,
+.signup.visible,
+.support.visible,
+.cart-wrapper.visible,
+footer.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* --- Staggered Guitar Card Load --- */
+.guitar {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: slideUp 0.5s ease forwards;
+}
+
+@keyframes slideUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.guitar:nth-child(1) { animation-delay: 0.1s; }
+.guitar:nth-child(2) { animation-delay: 0.15s; }
+.guitar:nth-child(3) { animation-delay: 0.2s; }
+.guitar:nth-child(4) { animation-delay: 0.25s; }
+.guitar:nth-child(5) { animation-delay: 0.3s; }
+.guitar:nth-child(6) { animation-delay: 0.35s; }
+
+
+.btn,
+.checkout-btn,
+.auth-btn,
+.action-btn,
+.remove-btn {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.btn::after,
+.checkout-btn::after,
+.auth-btn::after,
+.action-btn::after,
+.remove-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+  pointer-events: none;
+}
+
+.btn:active::after,
+.checkout-btn:active::after,
+.auth-btn:active::after,
+.action-btn:active::after,
+.remove-btn:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+.btn:hover,
+.checkout-btn:hover,
+.auth-btn:hover,
+.action-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active,
+.checkout-btn:active,
+.auth-btn:active,
+.action-btn:active {
+  transform: scale(0.98) translateY(1px);
+}
+
+
+.guitar img:hover,
+.product-details img:hover,
+.bio-images img:hover,
+.band-image img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.cart-item {
+  animation: slideInRight 0.4s ease forwards;
+}
+
+.cart-item.removing {
+  animation: slideOutRight 0.3s ease forwards;
+}
+
+@keyframes slideOutRight {
+  to {
+    opacity: 0;
+    transform: translateX(24px);
+    height: 0;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(231, 110, 36, 0.2);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+
+.social-media-icons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.social-media-icons a:hover {
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+
+@keyframes slideDown {
+  from { transform: translateY(-40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-content {
+  animation: slideDown 0.4s ease;
+}
+
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.account-avatar {
+  animation: float 3s ease-in-out infinite;
+}
+
+
+.review {
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.review:hover {
+  transform: translateX(4px);
+  background: rgba(0, 0, 0, 0.7);
+}
+
+
+.video-container {
+  transition: transform 0.3s ease;
+}
+
+.video-container:hover {
+  transform: translateY(-5px);
+}
+
+.video-container iframe {
+  transition: box-shadow 0.3s ease;
+}
+
+.video-container iframe:hover {
+  box-shadow: 0 12px 32px rgba(231, 110, 36, 0.25);
+}
+
+
+.thumbnails img.active {
+  box-shadow: 0 0 0 3px rgba(231, 110, 36, 0.4);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+
+.gates img {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.gates img:hover {
+  transform: scale(1.08) rotate(2deg);
+  filter: brightness(0) invert(1) drop-shadow(0 0 8px var(--orange));
+}
+
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+.cart-count {
+  animation: pulse 2s infinite;
+}
+
+
+header.scrolled {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  transition: box-shadow 0.3s ease;
+}
+
+
+a {
+  position: relative;
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--orange);
+  transition: width 0.3s ease;
+}
+
+a:hover::after {
+  width: 100%;
+}
+
+
+.auth-card,
+.account-card {
+  animation: slideDown 0.5s ease forwards;
+}
+
+
+.order-item,
+.cart-preview-item,
+.info-row,
+.stat-box {
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.order-item:hover,
+.cart-preview-item:hover,
+.info-row:hover,
+.stat-box:hover {
+  transform: translateX(4px);
+}
+
+
+.dot {
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.dot:hover {
+  transform: scale(1.25);
+}
+
+
+.sideNav a {
+  transition: right 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sideNav a:hover {
+  transform: translateX(-4px);
+  box-shadow: -6px 6px 24px rgba(139, 0, 0, 0.5);
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

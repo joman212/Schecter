@@ -387,31 +387,27 @@ document.addEventListener('keydown', function(e) {
 document.addEventListener('DOMContentLoaded', function() {
   const hasSeenModal = sessionStorage.getItem('schecterModalSeen');
   if (!hasSeenModal) {
-    setTimeout(openModal, 3000);
+    setTimeout(openModal, 1000);
     sessionStorage.setItem('schecterModalSeen', 'true');
   }
 });
 
-/* ===== CAROUSEL FUNCTIONS (VANILLA JS - PDF COMPLIANT) ===== */
 let slideIndex = 0;
 
 function showSlide(index) {
   const slides = document.querySelectorAll('.carousel-slide');
   const dots = document.querySelectorAll('.dot');
   
-  if (!slides.length) return;  // Exit if carousel not on page
-  
-  // Handle boundaries (looping)
+  if (!slides.length) return;  
+
   if (index >= slides.length) slideIndex = 0;
   else if (index < 0) slideIndex = slides.length - 1;
   else slideIndex = index;
   
-  // Update slides visibility
   slides.forEach((slide, i) => {
     slide.classList.toggle('active', i === slideIndex);
   });
   
-  // Update dot indicators
   dots.forEach((dot, i) => {
     dot.classList.toggle('active', i === slideIndex);
   });
@@ -423,7 +419,7 @@ function moveSlide(direction) {
 }
 
 function currentSlide(index) {
-  showSlide(index - 1);  // Convert 1-based to 0-based
+  showSlide(index - 1);   
   resetAutoSlide();
 }
 
@@ -443,14 +439,12 @@ function resetAutoSlide() {
   startAutoSlide();
 }
 
-/* Initialize carousel when DOM is ready */
 document.addEventListener('DOMContentLoaded', function() {
   const slides = document.querySelectorAll('.carousel-slide');
   if (slides.length > 0) {
     showSlide(0);
     startAutoSlide();
     
-    /* Pause auto-slide on hover */
     const carousel = document.querySelector('.carousel-container');
     if (carousel) {
       carousel.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
@@ -458,3 +452,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.featured, .reviews, .bio, .featured-videos')
+  .forEach(el => observer.observe(el));
