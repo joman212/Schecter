@@ -21,9 +21,10 @@ html {
   --orange: #E76E24;
   --gold: #D4AF37;
   --red: #B20000;
-  --red-hover: #D22730;
+  --red-hover: #ffffff;
   --btn: #CABBA3;
-  --btn-hover: #B9982C;
+  --btn-hover: #a24a13;
+;
 }
 
 body {
@@ -913,7 +914,7 @@ textarea {
 
 .remove-btn {
   background: var(--red);
-  color: var(--text-white);
+  color: var(--text-red);
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -926,7 +927,7 @@ textarea {
 }
 
 .remove-btn:hover {
-  background: var(--red-hover);
+  background: rgba(117, 47, 1, 0.8);
 }
 
 .cart-item-subtotal {

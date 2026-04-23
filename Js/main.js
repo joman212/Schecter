@@ -380,10 +380,6 @@ window.onclick = function(event) {
   }
 }
 
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeModal();
-});
-
 document.addEventListener('DOMContentLoaded', function() {
   const hasSeenModal = sessionStorage.getItem('schecterModalSeen');
   if (!hasSeenModal) {
