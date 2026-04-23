@@ -9,6 +9,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="promoModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <img src="images/promo.avif" alt="Special Offer" class="modal-image">
+    <h3>Exclusive Offer!</h3>
+    <p>Get 15% off your first order. Use code: <strong>SCHEC15</strong></p>
+    <a href="html/products.html" class="btn">Shop Now</a>
+  </div>
+</div>
 <div id="myOffcanvasNav" class="oc-sidebar">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   
@@ -49,29 +58,52 @@
             <a href="html/products.html" class="btn">Shop Now</a>
     </section>
 
-    <section class="featured">
-        <h2>Featured Guitars</h2>
-        <div class="guitar-grid">
-            <div class="guitar">
-                <img src="images/synyster-custom-headless.avif" alt="Synyster Standard">
-                <h3>Synyster Gates <br>Custom-7 TR Headless</br></h3>
+<!-- Carousel Section -->
+<section class="carousel-section">
+  <h2 class="section-title">Featured <span class="accent">Guitars</span></h2>
+  
+  <div class="carousel-container">
+    <div class="carousel-track" id="carouselTrack">
+      <div class="carousel-slide active">
+       <img src="images/synyster-custom-headless.avif" alt="Synyster Standard">        <div class="carousel-caption">
+        <h3>Synyster Gates <br>Custom-7 TR Headless</br></h3>
+          <p>Premium tone for heavy hitters</p>
                 <p class="price">$2,299.00</p>
+
                 <a href="html/synyster-custom-headless.html" class="btn">View Details</a>
-            </div>
-            <div class="guitar">
-                <img src="images/synyster-standard.avif" alt="Synyster Standard">
-                <h3>Synyster Standard</h3>
-                <p class="price">$949.00</p>
-                <a href="html/synyster-standard.html" class="btn">View Details</a>
-            </div>
-            <div class="guitar">
-                <img src="images/synyster-acoustic.avif" alt="Synyster Gates Acoustic">
-                <h3>Synyster Gates <br>'SYN GA SC' Acoustic</br></h3>
-                <p class="price">$559.00</p>
-                <a href="html/synyster-acoustic.html" class="btn">View Details</a>
-            </div>
         </div>
-    </section>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/synyster-acoustic.avif" alt="Synyster Gates Acoustic">
+        <div class="carousel-caption">
+        <h3>Synyster Gates <br>'SYN GA SC' Acoustic</br></h3>
+          <p>Vintage vibes, modern performance</p>
+                <p class="price">$559.00</p>
+
+        <a href="../html/synyster-acoustic.html" class="btn">View Details</a>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/synyster-standard.avif" alt="Synyster Standard">
+        <div class="carousel-caption">
+        <h3>Synyster Standard</h3>
+          <p>Premium craftsmanship and exceptional tone</p>
+                <p class="price">$949.00</p>
+        <a href="html/synyster-standard.html" class="btn">View Details</a>
+        </div>
+      </div>
+    </div>
+    
+    <button class="carousel-btn prev" onclick="moveSlide(-1)">&#10094;</button>
+    <button class="carousel-btn next" onclick="moveSlide(1)">&#10095;</button>
+    
+    <div class="carousel-dots">
+      <span class="dot active" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+  </div>
+</section>
     <section class="reviews">
     <h2>What Our Customers Say</h2>
     <div class="review">

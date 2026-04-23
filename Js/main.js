@@ -363,3 +363,98 @@ function openNav() {
 function closeNav() {
   document.getElementById("myOffcanvasNav").style.width = "0px";
 }
+
+function openModal() {
+  document.getElementById("promoModal").style.display = "block";
+  document.body.style.overflow = "hidden";
+}  
+function closeModal() {
+  document.getElementById("promoModal").style.display = "none";
+  document.body.style.overflow = "";
+}
+
+window.onclick = function(event) {
+  const modal = document.getElementById("promoModal");
+  if (event.target === modal) {
+    closeModal();
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const hasSeenModal = sessionStorage.getItem('schecterModalSeen');
+  if (!hasSeenModal) {
+    setTimeout(openModal, 3000);
+    sessionStorage.setItem('schecterModalSeen', 'true');
+  }
+});
+
+/* ===== CAROUSEL FUNCTIONS (VANILLA JS - PDF COMPLIANT) ===== */
+let slideIndex = 0;
+
+function showSlide(index) {
+  const slides = document.querySelectorAll('.carousel-slide');
+  const dots = document.querySelectorAll('.dot');
+  
+  if (!slides.length) return;  // Exit if carousel not on page
+  
+  // Handle boundaries (looping)
+  if (index >= slides.length) slideIndex = 0;
+  else if (index < 0) slideIndex = slides.length - 1;
+  else slideIndex = index;
+  
+  // Update slides visibility
+  slides.forEach((slide, i) => {
+    slide.classList.toggle('active', i === slideIndex);
+  });
+  
+  // Update dot indicators
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === slideIndex);
+  });
+}
+
+function moveSlide(direction) {
+  showSlide(slideIndex + direction);
+  resetAutoSlide();
+}
+
+function currentSlide(index) {
+  showSlide(index - 1);  // Convert 1-based to 0-based
+  resetAutoSlide();
+}
+
+let autoSlideInterval;
+
+function startAutoSlide() {
+  const slides = document.querySelectorAll('.carousel-slide');
+  if (!slides.length) return;
+  
+  autoSlideInterval = setInterval(() => {
+    moveSlide(1);
+  }, 5000);
+}
+
+function resetAutoSlide() {
+  clearInterval(autoSlideInterval);
+  startAutoSlide();
+}
+
+/* Initialize carousel when DOM is ready */
+document.addEventListener('DOMContentLoaded', function() {
+  const slides = document.querySelectorAll('.carousel-slide');
+  if (slides.length > 0) {
+    showSlide(0);
+    startAutoSlide();
+    
+    /* Pause auto-slide on hover */
+    const carousel = document.querySelector('.carousel-container');
+    if (carousel) {
+      carousel.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+      carousel.addEventListener('mouseleave', startAutoSlide);
+    }
+  }
+});
