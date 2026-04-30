@@ -41,7 +41,7 @@
     sessionStorage.removeItem('schecterCurrentUser');
     if (window.location.href.includes('account.html') || 
         window.location.href.includes('logout.html')) {
-      window.location.href = 'index.html';
+      window.location.href = '../index.html';
     }
   };
 
@@ -207,7 +207,7 @@ window.updateAuthNav = function() {
       e.preventDefault();
       if (confirm('Sign out?')) {
         window.logout();
-        window.location.href = 'index.html';
+        window.location.href = '../index.html';
       }
     };
   }
@@ -286,7 +286,7 @@ window.updateAuthNav = function() {
         }
         
         showMessage(msg, 'Login successful! Redirecting...', 'success');
-        setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+        setTimeout(() => { window.location.href = '../index.html'; }, 1500);
       } else {
         showMessage(msg, 'Invalid email or password', 'error');
       }
@@ -350,7 +350,7 @@ window.updateAuthNav = function() {
       }));
       
       showMessage(msg, 'Account created! Redirecting...', 'success');
-      setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+      setTimeout(() => { window.location.href = '../index.html'; }, 1500);
     });
   })();
 
