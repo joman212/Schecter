@@ -39,10 +39,62 @@
   window.logout = function() {
     localStorage.removeItem('schecterCurrentUser');
     sessionStorage.removeItem('schecterCurrentUser');
-    if (window.location.href.includes('account.html') || 
-        window.location.href.includes('logout.html')) {
+    
+    if (typeof window.updateAuthNav === 'function') {
+      window.updateAuthNav();
+    }
+    if (typeof window.updateCartBadge === 'function') {
+      window.updateCartBadge();
+    }
+    
+    if (window.location.href.includes('html/account.html')) {
       window.location.href = '../index.html';
     }
+  };
+
+  window.updateAuthNav = function() {
+    const user = window.getCurrentUser();
+    
+    document.querySelectorAll('#myOffcanvasNav a').forEach(function(link) {
+      var href = link.getAttribute('href') || '';
+      if (href.indexOf('html/login.html') !== -1 || href.indexOf('html/signup.html') !== -1) {
+        if (user) {
+          link.textContent = 'My Account';
+          link.href = 'html/account.html';
+        } else {
+          if (href.indexOf('html/signup.html') !== -1) {
+            link.textContent = 'Sign Up';
+            link.href = 'html/signup.html';
+          } else {
+            link.textContent = 'Sign In';
+            link.href = 'html/login.html';
+          }
+        }
+        link.onclick = null;
+      }
+    });
+    
+    var authLink = document.getElementById('authLink');
+    if (authLink) {
+      if (user) {
+        authLink.textContent = 'My Account';
+        authLink.href = 'html/account.html';
+        authLink.onclick = null;
+      } else {
+        authLink.textContent = 'Sign In';
+        authLink.href = 'html/login.html';
+        authLink.onclick = null;
+      }
+    }
+    
+    document.querySelectorAll('[data-action="logout"], #signOutBtn, .logout-btn').forEach(function(btn) {
+      btn.onclick = function(e) {
+        e.preventDefault();
+        if (confirm('Are you sure you want to sign out?')) {
+          window.logout();
+        }
+      };
+    });
   };
 
   window.updateCartBadge = function() {
@@ -98,7 +150,7 @@
     const cart = getCart();
     
     if (cart.length === 0) {
-      container.innerHTML = '<div class="empty-cart"><p style="color:#E5E5E5">Your cart is empty.</p><p><a href="products.html" style="color:#E76E24">→ Continue Shopping</a></p></div>';
+      container.innerHTML = '<div class="empty-cart"><p style="color:#E5E5E5">Your cart is empty.</p><p><a href="html/products.html" style="color:#E76E24">→ Continue Shopping</a></p></div>';
       if (summary) summary.style.display = 'none';
       if (totalEl) totalEl.textContent = '0.00';
       window.updateCartBadge();
@@ -162,56 +214,6 @@
       });
     });
   }
-
-window.updateAuthNav = function() {
-  const user = window.getCurrentUser();
-  
-  document.querySelectorAll('a[href="signup.html"], a[href="login.html"]').forEach(link => {
-    if (user) {
-      link.textContent = 'My Account';
-      link.href = 'account.html';
-    } else {
-      if (link.href.includes('signup.html')) {
-        link.textContent = 'Sign Up';
-        link.href = 'signup.html';
-      } else {
-        link.textContent = 'Sign In';
-        link.href = 'login.html';
-      }
-    }
-    link.onclick = null;
-  });
-  
-  const authLink = document.getElementById('authLink');
-  if (authLink) {
-    if (user) {
-      authLink.textContent = 'Sign Out';
-      authLink.href = '#';
-      authLink.onclick = function(e) {
-        e.preventDefault();
-        if (confirm('Sign out?')) {
-          window.logout();
-          window.location.reload();
-        }
-      };
-    } else {
-      authLink.textContent = 'Sign In';
-      authLink.href = 'login.html';
-      authLink.onclick = null;
-    }
-  }
-  
-  const signOutBtn = document.getElementById('signOutBtn');
-  if (signOutBtn) {
-    signOutBtn.onclick = function(e) {
-      e.preventDefault();
-      if (confirm('Sign out?')) {
-        window.logout();
-        window.location.href = '../index.html';
-      }
-    };
-  }
-};
 
   function attachListeners() {
     document.querySelectorAll('.add-to-cart').forEach(btn => {
@@ -286,7 +288,9 @@ window.updateAuthNav = function() {
         }
         
         showMessage(msg, 'Login successful! Redirecting...', 'success');
-        setTimeout(() => { window.location.href = '../index.html'; }, 1500);
+        setTimeout(() => { 
+          window.location.href = '../index.html'; 
+        }, 1500);
       } else {
         showMessage(msg, 'Invalid email or password', 'error');
       }
@@ -356,6 +360,109 @@ window.updateAuthNav = function() {
 
 })();
 
+function initAccountPage() {
+  if (!window.location.href.includes('account.html')) return;
+  
+  const user = window.getCurrentUser();
+  
+  if (!user) {
+    window.location.href = 'login.html';
+    return;
+  }
+  
+  const allUsers = JSON.parse(localStorage.getItem('schecterUsers')) || [];
+  const fullUser = allUsers.find(u => u.email === user.email) || {};
+  
+  
+  const emailEls = document.querySelectorAll('#accountEmail, #profileEmail');
+  emailEls.forEach(el => { if (el) el.textContent = user.email || '-'; });
+  
+  const name = user.name || (fullUser.firstName + ' ' + fullUser.lastName) || 'User';
+  const nameEls = document.querySelectorAll('#profileName');
+  nameEls.forEach(el => { if (el) el.textContent = name; });
+  
+  const initialsEl = document.getElementById('accountInitials');
+  if (initialsEl && name) {
+    const names = name.trim().split(' ');
+    const initials = (names[0]?.[0] || '') + (names[1]?.[0] || '');
+    initialsEl.textContent = initials.toUpperCase() || 'U';
+  }
+  
+  const memberSince = fullUser.createdAt ? new Date(fullUser.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '2026';
+  const memberEls = document.querySelectorAll('#memberSince, #profileMemberSince');
+  memberEls.forEach(el => { if (el) el.textContent = memberSince; });
+  
+  
+  const userCart = fullUser.cart || window.getCart?.() || [];
+  const cartCount = userCart.reduce((sum, item) => sum + (parseInt(item.quantity) || 1), 0);
+  
+  const cartEl = document.getElementById('cartItems');
+  if (cartEl) cartEl.textContent = cartCount;
+  
+  
+  const ordersList = document.getElementById('ordersList');
+  if (ordersList) {
+    const userOrders = fullUser.orders || [];
+    
+    if (userOrders.length === 0) {
+      ordersList.innerHTML = '<p class="no-orders">No orders yet. <a href="products.html">Start shopping!</a></p>';
+    } else {
+      let html = '';
+      userOrders.slice(0, 3).forEach(order => {
+        html += '<div class="order-item">' +
+          '<span class="order-id">#' + order.id + '</span>' +
+          '<span class="order-date">' + new Date(order.date).toLocaleDateString() + '</span>' +
+          '<span class="order-total">$' + (order.total || '0.00') + '</span>' +
+          '<span class="order-status status-' + (order.status || 'pending') + '">' + (order.status || 'Pending') + '</span>' +
+        '</div>';
+      });
+      ordersList.innerHTML = html;
+    }
+  }
+    
+  const cartPreview = document.getElementById('cartPreview');
+  if (cartPreview && userCart.length > 0) {
+    let html = '';
+    userCart.slice(0, 2).forEach(item => {
+      html += '<div class="cart-preview-item">' +
+        '<img src="' + (item.image || '../images/placeholder.jpg') + '" alt="' + item.name + '" class="preview-img">' +
+        '<div class="preview-info">' +
+          '<p class="preview-name">' + item.name + '</p>' +
+          '<p class="preview-qty">Qty: ' + (item.quantity || 1) + '</p>' +
+        '</div>' +
+        '<span class="preview-price">$' + (parseFloat(item.price) || 0).toFixed(2) + '</span>' +
+      '</div>';
+    });
+    if (userCart.length > 2) {
+      html += '<p class="preview-more">+ ' + (userCart.length - 2) + ' more items</p>';
+    }
+    cartPreview.innerHTML = html;
+  }
+  
+  
+  const signOutBtn = document.getElementById('signOutBtn');
+  if (signOutBtn) {
+    signOutBtn.onclick = function(e) {
+      e.preventDefault();
+      if (confirm('Are you sure you want to sign out?')) {
+        window.logout();
+        if (typeof window.updateAuthNav === 'function') {
+          window.updateAuthNav();
+        }
+        window.location.href = '../index.html';
+      }
+    };
+  }
+  
+  if (typeof window.updateCartBadge === 'function') {
+    window.updateCartBadge();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  initAccountPage();
+});
+
 function openNav() {
   document.getElementById("myOffcanvasNav").style.width = "220px";
 }
@@ -367,7 +474,8 @@ function closeNav() {
 function openModal() {
   document.getElementById("promoModal").style.display = "block";
   document.body.style.overflow = "hidden";
-}  
+}
+
 function closeModal() {
   document.getElementById("promoModal").style.display = "none";
   document.body.style.overflow = "";
@@ -496,4 +604,3 @@ window.animateCarouselSlide = function(direction) {
     
   }, 300);
 };
-
