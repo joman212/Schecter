@@ -57,17 +57,17 @@
     
     document.querySelectorAll('#myOffcanvasNav a').forEach(function(link) {
       var href = link.getAttribute('href') || '';
-      if (href.indexOf('html/login.html') !== -1 || href.indexOf('html/signup.html') !== -1) {
+      if (href.indexOf('php/login.php') !== -1 || href.indexOf('php/signup.php') !== -1) {
         if (user) {
           link.textContent = 'My Account';
           link.href = 'html/account.html';
         } else {
-          if (href.indexOf('html/signup.html') !== -1) {
+          if (href.indexOf('php/signup.php') !== -1) {
             link.textContent = 'Sign Up';
-            link.href = 'html/signup.html';
+            link.href = 'php/signup.php';
           } else {
             link.textContent = 'Sign In';
-            link.href = 'html/login.html';
+            link.href = 'php/login.php';
           }
         }
         link.onclick = null;
@@ -82,7 +82,7 @@
         authLink.onclick = null;
       } else {
         authLink.textContent = 'Sign In';
-        authLink.href = 'html/login.html';
+        authLink.href = 'php/login.php';
         authLink.onclick = null;
       }
     }
@@ -366,7 +366,7 @@ function initAccountPage() {
   const user = window.getCurrentUser();
   
   if (!user) {
-    window.location.href = 'login.html';
+    window.location.href = 'login.php';
     return;
   }
   
