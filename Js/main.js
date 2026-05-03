@@ -4,72 +4,53 @@
   if (window._schecterInitialized) return;
   window._schecterInitialized = true;
 
-
-  function formatPrice(price) {
-    return parseFloat(price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  function formatPrice(p) {
+    return parseFloat(p).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
-  function showMessage(element, text, type) {
-    if (!element) return;
-    element.textContent = text;
-    element.className = 'auth-message ' + type;
-    element.style.display = 'block';
-    element.style.color = type === 'success' ? '#28a745' : '#dc3545';
-    setTimeout(() => { element.style.display = 'none'; }, 5000);
+  function showMessage(el, text, type) {
+    if (!el) return;
+    el.textContent = text;
+    el.style.display = 'block';
+    el.style.color = type === 'success' ? '#28a745' : '#dc3545';
+    setTimeout(() => { el.style.display = 'none'; }, 5000);
   }
 
-
-  function getCart() {
-    return JSON.parse(localStorage.getItem('userCart')) || [];
-  }
-
-  function saveCart(cart) {
-    localStorage.setItem('userCart', JSON.stringify(cart));
-  }
-
+  function getCart() { return JSON.parse(localStorage.getItem('userCart')) || []; }
+  function saveCart(cart) { localStorage.setItem('userCart', JSON.stringify(cart)); }
 
   window.isLoggedIn = function () {
-    return !!(localStorage.getItem('schecterCurrentUser') ||
-              sessionStorage.getItem('schecterCurrentUser'));
+    return !!(localStorage.getItem('schecterCurrentUser') || sessionStorage.getItem('schecterCurrentUser'));
   };
 
   window.getCurrentUser = function () {
-    const s = localStorage.getItem('schecterCurrentUser') ||
-              sessionStorage.getItem('schecterCurrentUser');
+    const s = localStorage.getItem('schecterCurrentUser') || sessionStorage.getItem('schecterCurrentUser');
     return s ? JSON.parse(s) : null;
   };
 
   window.logout = function () {
     localStorage.removeItem('schecterCurrentUser');
     sessionStorage.removeItem('schecterCurrentUser');
-    if (typeof window.updateAuthNav   === 'function') window.updateAuthNav();
-    if (typeof window.updateCartBadge === 'function') window.updateCartBadge();
-    if (window.location.href.includes('html/account.html')) window.location.href = '../index.html';
+    window.updateAuthNav();
+    window.updateCartBadge();
+    if (window.location.href.includes('account.html')) window.location.href = '../index.html';
   };
-
 
   window.updateAuthNav = function () {
     const user = window.getCurrentUser();
 
     document.querySelectorAll('#myOffcanvasNav a').forEach(link => {
       const href = link.getAttribute('href') || '';
-      if (!href.includes('php/login.php') && !href.includes('php/signup.php')) return;
-
-      if (user) {
-        link.textContent = 'My Account';
-        link.href = 'html/account.html';
-      } else {
-        link.textContent = href.includes('signup') ? 'Sign Up' : 'Sign In';
-        link.href = href.includes('signup') ? 'php/signup.php' : 'php/login.php';
-      }
-      link.onclick = null;
+      if (!href.includes('login.php') && !href.includes('signup.php')) return;
+      link.textContent = user ? 'My Account' : (href.includes('signup') ? 'Sign Up' : 'Sign In');
+      link.href        = user ? 'html/account.html' : href;
+      link.onclick     = null;
     });
 
     const authLink = document.getElementById('authLink');
     if (authLink) {
       authLink.textContent = user ? 'My Account' : 'Sign In';
       authLink.href        = user ? 'html/account.html' : 'php/login.php';
-      authLink.onclick     = null;
     }
 
     document.querySelectorAll('[data-action="logout"], #signOutBtn, .logout-btn').forEach(btn => {
@@ -80,28 +61,20 @@
     });
   };
 
-
   window.updateCartBadge = function () {
-    const total = getCart().reduce((s, i) => s + (parseInt(i.quantity) || 1), 0);
+    const total = getCart().reduce((sum, i) => sum + (parseInt(i.quantity) || 1), 0);
     document.querySelectorAll('.cart-count, #cart-count, [data-cart-badge]').forEach(el => {
       el.textContent   = total;
       el.style.display = total > 0 ? 'inline-block' : 'none';
     });
   };
 
-
   window.addToCart = function (id, name, price, image, quantity = 1) {
-    if (!id || !name) return false;
-    const numericPrice = parseFloat(price);
-    if (isNaN(numericPrice)) return false;
-
+    if (!id || !name || isNaN(parseFloat(price))) return false;
     const cart = getCart();
     const idx  = cart.findIndex(i => i.id === id);
-    if (idx > -1) {
-      cart[idx].quantity = (parseInt(cart[idx].quantity) || 1) + quantity;
-    } else {
-      cart.push({ id, name, price: numericPrice, image: image || '', quantity });
-    }
+    if (idx > -1) cart[idx].quantity = (parseInt(cart[idx].quantity) || 1) + quantity;
+    else cart.push({ id, name, price: parseFloat(price), image: image || '', quantity });
     saveCart(cart);
     window.updateCartBadge();
     return true;
@@ -112,7 +85,7 @@
     if (!cart[index]) return;
     cart.splice(index, 1);
     saveCart(cart);
-    if (typeof window.renderCartDisplay === 'function') window.renderCartDisplay();
+    window.renderCartDisplay();
     window.updateCartBadge();
   };
 
@@ -121,9 +94,8 @@
     if (!cart[index]) return;
     cart[index].quantity = Math.max(1, (parseInt(cart[index].quantity) || 1) + delta);
     saveCart(cart);
-    if (typeof window.renderCartDisplay === 'function') window.renderCartDisplay();
+    window.renderCartDisplay();
   };
-
 
   window.renderCartDisplay = function () {
     const container = document.getElementById('cartContainer');
@@ -134,11 +106,7 @@
     const totalEl = document.getElementById('cartTotal');
 
     if (!cart.length) {
-      container.innerHTML =
-        '<div class="empty-cart">' +
-        '<p style="color:#E5E5E5">Your cart is empty.</p>' +
-        '<p><a href="html/products.html" style="color:#E76E24">→ Continue Shopping</a></p>' +
-        '</div>';
+      container.innerHTML = '<div class="empty-cart"><p style="color:#E5E5E5">Your cart is empty.</p><p><a href="html/products.html" style="color:#E76E24">→ Continue Shopping</a></p></div>';
       if (summary) summary.style.display = 'none';
       if (totalEl) totalEl.textContent = '0.00';
       window.updateCartBadge();
@@ -146,36 +114,31 @@
     }
 
     let total = 0;
-    const items = cart.map((item, index) => {
+    container.innerHTML = '<div class="cart-items">' + cart.map((item, i) => {
       const price = parseFloat(item.price) || 0;
       const qty   = parseInt(item.quantity) || 1;
       total += price * qty;
-      return `<div class="cart-item" data-index="${index}">
-        <img src="${item.image || 'placeholder.jpg'}" alt="${item.name}" class="cart-item-image"
-             onerror="this.src='https://via.placeholder.com/200'">
+      return `<div class="cart-item" data-index="${i}">
+        <img src="${item.image || 'placeholder.jpg'}" alt="${item.name}" class="cart-item-image" onerror="this.src='https://via.placeholder.com/200'">
         <div class="cart-item-info">
           <h3><a href="${item.id}.html">${item.name}</a></h3>
           <div class="cart-item-price">Price: $${formatPrice(price)}</div>
           <div class="cart-item-quantity">Quantity: ${qty}</div>
           <div class="cart-item-price" style="margin-top:10px">Subtotal: $${formatPrice(price * qty)}</div>
-          <button class="remove-btn" data-index="${index}">Remove</button>
+          <button class="remove-btn" data-index="${i}">Remove</button>
         </div>
       </div>`;
-    }).join('');
+    }).join('') + '</div>';
 
-    container.innerHTML = `<div class="cart-items">${items}</div>`;
     if (totalEl) totalEl.textContent = formatPrice(total);
     if (summary) summary.style.display = 'block';
 
     container.querySelectorAll('.remove-btn').forEach(btn => {
-      btn.addEventListener('click', function () {
-        window.removeItem(parseInt(this.dataset.index));
-      });
+      btn.addEventListener('click', function () { window.removeItem(parseInt(this.dataset.index)); });
     });
 
     window.updateCartBadge();
   };
-
 
   function initImageGallery() {
     document.querySelectorAll('.image-gallery').forEach(gallery => {
@@ -198,29 +161,22 @@
     });
   }
 
-
   function attachListeners() {
     document.querySelectorAll('.add-to-cart').forEach(btn => {
       if (btn._attached) return;
       btn._attached = true;
       btn.addEventListener('click', function (e) {
         e.preventDefault();
-        const ok = window.addToCart(
-          this.dataset.id, this.dataset.name,
-          this.dataset.price, this.dataset.image,
-          parseInt(this.dataset.quantity) || 1
-        );
-        if (ok) {
-          const orig = this.textContent;
-          this.textContent = '✓ Added!';
-          this.disabled = true;
-          setTimeout(() => { this.textContent = orig; this.disabled = false; }, 1500);
-        }
+        const ok = window.addToCart(this.dataset.id, this.dataset.name, this.dataset.price, this.dataset.image, parseInt(this.dataset.quantity) || 1);
+        if (!ok) return;
+        const orig = this.textContent;
+        this.textContent = '✓ Added!';
+        this.disabled = true;
+        setTimeout(() => { this.textContent = orig; this.disabled = false; }, 1500);
       });
     });
     window.updateAuthNav();
   }
-
 
   function initLoginForm() {
     const form = document.getElementById('loginForm');
@@ -249,7 +205,6 @@
     });
   }
 
-
   function initSignupForm() {
     const form = document.getElementById('signupForm');
     const msg  = document.getElementById('signupMessage');
@@ -257,47 +212,30 @@
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      const firstName       = document.getElementById('firstName').value.trim();
-      const lastName        = document.getElementById('lastName').value.trim();
-      const email           = document.getElementById('email').value.trim();
-      const password        = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
-      const terms           = document.getElementById('terms').checked;
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName  = document.getElementById('lastName').value.trim();
+      const email     = document.getElementById('email').value.trim();
+      const password  = document.getElementById('password').value;
+      const confirm   = document.getElementById('confirmPassword').value;
+      const terms     = document.getElementById('terms').checked;
 
-      if (!firstName || !lastName || !email || !password || !confirmPassword) {
-        showMessage(msg, 'Please fill in all fields', 'error'); return;
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        showMessage(msg, 'Please enter a valid email', 'error'); return;
-      }
-      if (password.length < 6) {
-        showMessage(msg, 'Password must be at least 6 characters', 'error'); return;
-      }
-      if (password !== confirmPassword) {
-        showMessage(msg, 'Passwords do not match', 'error'); return;
-      }
-      if (!terms) {
-        showMessage(msg, 'Please agree to the Terms of Service', 'error'); return;
-      }
+      if (!firstName || !lastName || !email || !password || !confirm) { showMessage(msg, 'Please fill in all fields', 'error'); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))                  { showMessage(msg, 'Please enter a valid email', 'error'); return; }
+      if (password.length < 6)                                          { showMessage(msg, 'Password must be at least 6 characters', 'error'); return; }
+      if (password !== confirm)                                         { showMessage(msg, 'Passwords do not match', 'error'); return; }
+      if (!terms)                                                       { showMessage(msg, 'Please agree to the Terms of Service', 'error'); return; }
 
       const users = JSON.parse(localStorage.getItem('schecterUsers')) || [];
-      if (users.find(u => u.email === email)) {
-        showMessage(msg, 'An account with this email already exists', 'error'); return;
-      }
+      if (users.find(u => u.email === email)) { showMessage(msg, 'An account with this email already exists', 'error'); return; }
 
-      const newUser = { id: Date.now().toString(), firstName, lastName, email, password,
-                        createdAt: new Date().toISOString(), cart: [] };
+      const newUser = { id: Date.now().toString(), firstName, lastName, email, password, createdAt: new Date().toISOString(), cart: [] };
       users.push(newUser);
       localStorage.setItem('schecterUsers', JSON.stringify(users));
-      localStorage.setItem('schecterCurrentUser', JSON.stringify({
-        email: newUser.email, name: firstName + ' ' + lastName
-      }));
-
+      localStorage.setItem('schecterCurrentUser', JSON.stringify({ email, name: firstName + ' ' + lastName }));
       showMessage(msg, 'Account created! Redirecting...', 'success');
       setTimeout(() => { window.location.href = '../index.html'; }, 1500);
     });
   }
-
 
   function init() {
     attachListeners();
@@ -313,14 +251,10 @@
     if (document.getElementById('cartContainer')) window.renderCartDisplay();
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 
 })();
-
 
 function initAccountPage() {
   if (!window.location.href.includes('account.html')) return;
@@ -330,11 +264,9 @@ function initAccountPage() {
 
   const allUsers = JSON.parse(localStorage.getItem('schecterUsers')) || [];
   const fullUser = allUsers.find(u => u.email === user.email) || {};
+  const name     = user.name || (fullUser.firstName + ' ' + fullUser.lastName) || 'User';
 
-  document.querySelectorAll('#accountEmail, #profileEmail')
-    .forEach(el => { el.textContent = user.email || '-'; });
-
-  const name = user.name || (fullUser.firstName + ' ' + fullUser.lastName) || 'User';
+  document.querySelectorAll('#accountEmail, #profileEmail').forEach(el => { el.textContent = user.email || '-'; });
   document.querySelectorAll('#profileName').forEach(el => { el.textContent = name; });
 
   const initialsEl = document.getElementById('accountInitials');
@@ -346,13 +278,11 @@ function initAccountPage() {
   const memberSince = fullUser.createdAt
     ? new Date(fullUser.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
     : '2026';
-  document.querySelectorAll('#memberSince, #profileMemberSince')
-    .forEach(el => { el.textContent = memberSince; });
+  document.querySelectorAll('#memberSince, #profileMemberSince').forEach(el => { el.textContent = memberSince; });
 
-  const userCart  = fullUser.cart || [];
-  const cartCount = userCart.reduce((s, i) => s + (parseInt(i.quantity) || 1), 0);
-  const cartEl    = document.getElementById('cartItems');
-  if (cartEl) cartEl.textContent = cartCount;
+  const userCart = fullUser.cart || [];
+  const cartEl   = document.getElementById('cartItems');
+  if (cartEl) cartEl.textContent = userCart.reduce((s, i) => s + (parseInt(i.quantity) || 1), 0);
 
   const ordersList = document.getElementById('ordersList');
   if (ordersList) {
@@ -364,8 +294,7 @@ function initAccountPage() {
             <span class="order-date">${new Date(o.date).toLocaleDateString()}</span>
             <span class="order-total">$${o.total || '0.00'}</span>
             <span class="order-status status-${o.status || 'pending'}">${o.status || 'Pending'}</span>
-          </div>`
-        ).join('')
+          </div>`).join('')
       : '<p class="no-orders">No orders yet. <a href="products.html">Start shopping!</a></p>';
   }
 
@@ -380,8 +309,7 @@ function initAccountPage() {
               <p class="preview-qty">Qty: ${item.quantity || 1}</p>
             </div>
             <span class="preview-price">$${(parseFloat(item.price) || 0).toFixed(2)}</span>
-          </div>`
-        ).join('') + (userCart.length > 2 ? `<p class="preview-more">+ ${userCart.length - 2} more items</p>` : '')
+          </div>`).join('') + (userCart.length > 2 ? `<p class="preview-more">+ ${userCart.length - 2} more items</p>` : '')
       : '<p class="no-orders">Your cart is empty.</p>';
   }
 
@@ -389,21 +317,15 @@ function initAccountPage() {
   if (signOutBtn) {
     signOutBtn.onclick = e => {
       e.preventDefault();
-      if (confirm('Are you sure you want to sign out?')) {
-        window.logout();
-        window.location.href = '../index.html';
-      }
+      if (confirm('Are you sure you want to sign out?')) { window.logout(); window.location.href = '../index.html'; }
     };
   }
 
-  if (typeof window.updateCartBadge === 'function') window.updateCartBadge();
+  window.updateCartBadge();
 }
-
 
 function openNav()  { document.getElementById('myOffcanvasNav').style.width = '220px'; }
 function closeNav() { document.getElementById('myOffcanvasNav').style.width = '0px'; }
-
-
 function openModal() {
   const modal = document.getElementById('promoModal');
   if (!modal) return;
@@ -416,30 +338,23 @@ function closeModal() {
   modal.style.display = 'none';
   document.body.style.overflow = '';
 }
-window.onclick = e => {
-  const modal = document.getElementById('promoModal');
-  if (modal && e.target === modal) closeModal();
-};
+window.onclick = e => { if (e.target === document.getElementById('promoModal')) closeModal(); };
 
 
 let slideIndex = 0;
 let autoSlideInterval;
-
 function showSlide(index) {
   const slides = document.querySelectorAll('.carousel-slide');
   const dots   = document.querySelectorAll('.dot');
   if (!slides.length) return;
 
-  if (index >= slides.length) slideIndex = 0;
-  else if (index < 0)         slideIndex = slides.length - 1;
-  else                        slideIndex = index;
-
+  slideIndex = (index + slides.length) % slides.length;
   slides.forEach((s, i) => s.classList.toggle('active', i === slideIndex));
   dots.forEach((d, i)   => d.classList.toggle('active', i === slideIndex));
 }
 
-function moveSlide(direction) { showSlide(slideIndex + direction); resetAutoSlide(); }
-function currentSlide(index)  { showSlide(index - 1); resetAutoSlide(); }
+function moveSlide(dir)  { showSlide(slideIndex + dir); resetAutoSlide(); }
+function currentSlide(i) { showSlide(i - 1); resetAutoSlide(); }
 
 function startAutoSlide() {
   if (!document.querySelectorAll('.carousel-slide').length) return;
@@ -447,36 +362,13 @@ function startAutoSlide() {
 }
 function resetAutoSlide() { clearInterval(autoSlideInterval); startAutoSlide(); }
 
-window.animateCarouselSlide = function (direction) {
-  const slides      = document.querySelectorAll('.carousel-slide');
-  const activeSlide = document.querySelector('.carousel-slide.active');
-  if (!activeSlide) return;
-
-  activeSlide.classList.add('fade-out');
-  setTimeout(() => {
-    const currentIndex = Array.from(slides).indexOf(activeSlide);
-    const nextIndex    = direction === 'next'
-      ? (currentIndex + 1) % slides.length
-      : (currentIndex - 1 + slides.length) % slides.length;
-    const nextSlide    = slides[nextIndex];
-
-    activeSlide.classList.remove('active', 'fade-out');
-    nextSlide.classList.add('active', direction === 'next' ? 'slide-next' : 'slide-prev');
-    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === nextIndex));
-    setTimeout(() => nextSlide.classList.remove('slide-next', 'slide-prev'), 500);
-  }, 300);
-};
-
 
 document.addEventListener('DOMContentLoaded', function () {
   initAccountPage();
 
   if (!sessionStorage.getItem('schecterModalSeen')) {
     const modal = document.getElementById('promoModal');
-    if (modal) {
-      setTimeout(openModal, 1000);
-      sessionStorage.setItem('schecterModalSeen', 'true');
-    }
+    if (modal) { setTimeout(openModal, 1000); sessionStorage.setItem('schecterModalSeen', 'true'); }
   }
 
   const slides = document.querySelectorAll('.carousel-slide');
@@ -493,6 +385,5 @@ document.addEventListener('DOMContentLoaded', function () {
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1 });
-  document.querySelectorAll('.featured, .reviews, .bio, .featured-videos')
-    .forEach(el => observer.observe(el));
+  document.querySelectorAll('.featured, .reviews, .bio, .featured-videos').forEach(el => observer.observe(el));
 });
