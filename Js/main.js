@@ -4,24 +4,18 @@
   if (window._schecterInitialized) return;
   window._schecterInitialized = true;
 
-  function formatPrice(p) {
-    return parseFloat(p).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
+  const fmt     = p => parseFloat(p).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const getCart = () => JSON.parse(localStorage.getItem('userCart')) || [];
+  const saveCart = c => localStorage.setItem('userCart', JSON.stringify(c));
+  const qsa     = (sel, root = document) => root.querySelectorAll(sel);
 
   function showMessage(el, text, type) {
     if (!el) return;
-    el.textContent = text;
-    el.style.display = 'block';
-    el.style.color = type === 'success' ? '#28a745' : '#dc3545';
+    Object.assign(el, { textContent: text });
+    Object.assign(el.style, { display: 'block', color: type === 'success' ? '#28a745' : '#dc3545' });
     setTimeout(() => { el.style.display = 'none'; }, 5000);
   }
 
-  function getCart() { return JSON.parse(localStorage.getItem('userCart')) || []; }
-  function saveCart(cart) { localStorage.setItem('userCart', JSON.stringify(cart)); }
-
-  window.isLoggedIn = function () {
-    return !!(localStorage.getItem('schecterCurrentUser') || sessionStorage.getItem('schecterCurrentUser'));
-  };
 
   window.getCurrentUser = function () {
     const s = localStorage.getItem('schecterCurrentUser') || sessionStorage.getItem('schecterCurrentUser');
@@ -29,8 +23,7 @@
   };
 
   window.logout = function () {
-    localStorage.removeItem('schecterCurrentUser');
-    sessionStorage.removeItem('schecterCurrentUser');
+    ['schecterCurrentUser'].forEach(k => { localStorage.removeItem(k); sessionStorage.removeItem(k); });
     window.updateAuthNav();
     window.updateCartBadge();
     if (window.location.href.includes('account.html')) window.location.href = '../index.html';
@@ -38,8 +31,7 @@
 
   window.updateAuthNav = function () {
     const user = window.getCurrentUser();
-
-    document.querySelectorAll('#myOffcanvasNav a').forEach(link => {
+    qsa('#myOffcanvasNav a').forEach(link => {
       const href = link.getAttribute('href') || '';
       if (!href.includes('login.php') && !href.includes('signup.php')) return;
       link.textContent = user ? 'My Account' : (href.includes('signup') ? 'Sign Up' : 'Sign In');
@@ -53,17 +45,14 @@
       authLink.href        = user ? 'html/account.html' : 'php/login.php';
     }
 
-    document.querySelectorAll('[data-action="logout"], #signOutBtn, .logout-btn').forEach(btn => {
-      btn.onclick = e => {
-        e.preventDefault();
-        if (confirm('Are you sure you want to sign out?')) window.logout();
-      };
+    qsa('[data-action="logout"], #signOutBtn, .logout-btn').forEach(btn => {
+      btn.onclick = e => { e.preventDefault(); if (confirm('Are you sure you want to sign out?')) window.logout(); };
     });
   };
 
   window.updateCartBadge = function () {
-    const total = getCart().reduce((sum, i) => sum + (parseInt(i.quantity) || 1), 0);
-    document.querySelectorAll('.cart-count, #cart-count, [data-cart-badge]').forEach(el => {
+    const total = getCart().reduce((s, i) => s + (parseInt(i.quantity) || 1), 0);
+    qsa('.cart-count, #cart-count, [data-cart-badge]').forEach(el => {
       el.textContent   = total;
       el.style.display = total > 0 ? 'inline-block' : 'none';
     });
@@ -100,7 +89,6 @@
   window.renderCartDisplay = function () {
     const container = document.getElementById('cartContainer');
     if (!container) return;
-
     const cart    = getCart();
     const summary = document.getElementById('cartSummary');
     const totalEl = document.getElementById('cartTotal');
@@ -122,18 +110,18 @@
         <img src="${item.image || 'placeholder.jpg'}" alt="${item.name}" class="cart-item-image" onerror="this.src='https://via.placeholder.com/200'">
         <div class="cart-item-info">
           <h3><a href="${item.id}.html">${item.name}</a></h3>
-          <div class="cart-item-price">Price: $${formatPrice(price)}</div>
+          <div class="cart-item-price">Price: $${fmt(price)}</div>
           <div class="cart-item-quantity">Quantity: ${qty}</div>
-          <div class="cart-item-price" style="margin-top:10px">Subtotal: $${formatPrice(price * qty)}</div>
+          <div class="cart-item-price" style="margin-top:10px">Subtotal: $${fmt(price * qty)}</div>
           <button class="remove-btn" data-index="${i}">Remove</button>
         </div>
       </div>`;
     }).join('') + '</div>';
 
-    if (totalEl) totalEl.textContent = formatPrice(total);
+    if (totalEl) totalEl.textContent = fmt(total);
     if (summary) summary.style.display = 'block';
 
-    container.querySelectorAll('.remove-btn').forEach(btn => {
+    qsa('.remove-btn', container).forEach(btn => {
       btn.addEventListener('click', function () { window.removeItem(parseInt(this.dataset.index)); });
     });
 
@@ -141,7 +129,7 @@
   };
 
   function initImageGallery() {
-    document.querySelectorAll('.image-gallery').forEach(gallery => {
+    qsa('.image-gallery').forEach(gallery => {
       const mainImg = gallery.querySelector('.main-image img');
       const thumbs  = gallery.querySelectorAll('.thumbnails img');
       if (!mainImg || !thumbs.length) return;
@@ -151,7 +139,7 @@
         thumb.addEventListener('click', function () {
           mainImg.style.opacity = '0';
           setTimeout(() => {
-            mainImg.src = this.dataset.full || this.src;
+            mainImg.src   = this.dataset.full || this.src;
             mainImg.onload = () => { mainImg.style.opacity = '1'; };
           }, 300);
           thumbs.forEach(t => t.classList.remove('active'));
@@ -162,13 +150,12 @@
   }
 
   function attachListeners() {
-    document.querySelectorAll('.add-to-cart').forEach(btn => {
+    qsa('.add-to-cart').forEach(btn => {
       if (btn._attached) return;
       btn._attached = true;
       btn.addEventListener('click', function (e) {
         e.preventDefault();
-        const ok = window.addToCart(this.dataset.id, this.dataset.name, this.dataset.price, this.dataset.image, parseInt(this.dataset.quantity) || 1);
-        if (!ok) return;
+        if (!window.addToCart(this.dataset.id, this.dataset.name, this.dataset.price, this.dataset.image, parseInt(this.dataset.quantity) || 1)) return;
         const orig = this.textContent;
         this.textContent = '✓ Added!';
         this.disabled = true;
@@ -178,70 +165,55 @@
     window.updateAuthNav();
   }
 
-  function initLoginForm() {
-    const form = document.getElementById('loginForm');
-    const msg  = document.getElementById('loginMessage');
-    if (!form) return;
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const email    = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const remember = document.getElementById('remember').checked;
-
-      if (!email || !password) { showMessage(msg, 'Please fill in all fields', 'error'); return; }
-
-      const users = JSON.parse(localStorage.getItem('schecterUsers')) || [];
-      const user  = users.find(u => u.email === email && u.password === password);
-
-      if (user) {
-        const session = { email: user.email, name: user.firstName + ' ' + user.lastName };
-        (remember ? localStorage : sessionStorage).setItem('schecterCurrentUser', JSON.stringify(session));
-        showMessage(msg, 'Login successful! Redirecting...', 'success');
-        setTimeout(() => { window.location.href = '../index.html'; }, 1500);
-      } else {
-        showMessage(msg, 'Invalid email or password', 'error');
-      }
-    });
+  function initForm(formId, msgId, handler) {
+    const form = document.getElementById(formId);
+    const msg  = document.getElementById(msgId);
+    if (form) form.addEventListener('submit', e => { e.preventDefault(); handler(form, msg); });
   }
 
-  function initSignupForm() {
-    const form = document.getElementById('signupForm');
-    const msg  = document.getElementById('signupMessage');
-    if (!form) return;
+  initForm('loginForm', 'loginMessage', (form, msg) => {
+    const email    = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const remember = document.getElementById('remember').checked;
+    if (!email || !password) return showMessage(msg, 'Please fill in all fields', 'error');
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const firstName = document.getElementById('firstName').value.trim();
-      const lastName  = document.getElementById('lastName').value.trim();
-      const email     = document.getElementById('email').value.trim();
-      const password  = document.getElementById('password').value;
-      const confirm   = document.getElementById('confirmPassword').value;
-      const terms     = document.getElementById('terms').checked;
+    const users = JSON.parse(localStorage.getItem('schecterUsers')) || [];
+    const user  = users.find(u => u.email === email && u.password === password);
+    if (!user) return showMessage(msg, 'Invalid email or password', 'error');
 
-      if (!firstName || !lastName || !email || !password || !confirm) { showMessage(msg, 'Please fill in all fields', 'error'); return; }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))                  { showMessage(msg, 'Please enter a valid email', 'error'); return; }
-      if (password.length < 6)                                          { showMessage(msg, 'Password must be at least 6 characters', 'error'); return; }
-      if (password !== confirm)                                         { showMessage(msg, 'Passwords do not match', 'error'); return; }
-      if (!terms)                                                       { showMessage(msg, 'Please agree to the Terms of Service', 'error'); return; }
+    const session = { email: user.email, name: user.firstName + ' ' + user.lastName };
+    (remember ? localStorage : sessionStorage).setItem('schecterCurrentUser', JSON.stringify(session));
+    showMessage(msg, 'Login successful! Redirecting...', 'success');
+    setTimeout(() => { window.location.href = '../index.html'; }, 1500);
+  });
 
-      const users = JSON.parse(localStorage.getItem('schecterUsers')) || [];
-      if (users.find(u => u.email === email)) { showMessage(msg, 'An account with this email already exists', 'error'); return; }
+  initForm('signupForm', 'signupMessage', (form, msg) => {
+    const get = id => document.getElementById(id);
+    const firstName = get('firstName').value.trim();
+    const lastName  = get('lastName').value.trim();
+    const email     = get('email').value.trim();
+    const password  = get('password').value;
+    const confirm   = get('confirmPassword').value;
 
-      const newUser = { id: Date.now().toString(), firstName, lastName, email, password, createdAt: new Date().toISOString(), cart: [] };
-      users.push(newUser);
-      localStorage.setItem('schecterUsers', JSON.stringify(users));
-      localStorage.setItem('schecterCurrentUser', JSON.stringify({ email, name: firstName + ' ' + lastName }));
-      showMessage(msg, 'Account created! Redirecting...', 'success');
-      setTimeout(() => { window.location.href = '../index.html'; }, 1500);
-    });
-  }
+    if (!firstName || !lastName || !email || !password || !confirm) return showMessage(msg, 'Please fill in all fields', 'error');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))                  return showMessage(msg, 'Please enter a valid email', 'error');
+    if (password.length < 6)                                          return showMessage(msg, 'Password must be at least 6 characters', 'error');
+    if (password !== confirm)                                         return showMessage(msg, 'Passwords do not match', 'error');
+    if (!get('terms').checked)                                        return showMessage(msg, 'Please agree to the Terms of Service', 'error');
+
+    const users = JSON.parse(localStorage.getItem('schecterUsers')) || [];
+    if (users.find(u => u.email === email)) return showMessage(msg, 'An account with this email already exists', 'error');
+
+    users.push({ id: Date.now().toString(), firstName, lastName, email, password, createdAt: new Date().toISOString(), cart: [] });
+    localStorage.setItem('schecterUsers', JSON.stringify(users));
+    localStorage.setItem('schecterCurrentUser', JSON.stringify({ email, name: firstName + ' ' + lastName }));
+    showMessage(msg, 'Account created! Redirecting...', 'success');
+    setTimeout(() => { window.location.href = '../index.html'; }, 1500);
+  });
 
   function init() {
     attachListeners();
     initImageGallery();
-    initLoginForm();
-    initSignupForm();
     window.updateCartBadge();
     if (document.getElementById('cartContainer')) window.renderCartDisplay();
   }
@@ -326,6 +298,7 @@ function initAccountPage() {
 
 function openNav()  { document.getElementById('myOffcanvasNav').style.width = '220px'; }
 function closeNav() { document.getElementById('myOffcanvasNav').style.width = '0px'; }
+
 function openModal() {
   const modal = document.getElementById('promoModal');
   if (!modal) return;
@@ -340,14 +313,13 @@ function closeModal() {
 }
 window.onclick = e => { if (e.target === document.getElementById('promoModal')) closeModal(); };
 
-
 let slideIndex = 0;
 let autoSlideInterval;
+
 function showSlide(index) {
   const slides = document.querySelectorAll('.carousel-slide');
   const dots   = document.querySelectorAll('.dot');
   if (!slides.length) return;
-
   slideIndex = (index + slides.length) % slides.length;
   slides.forEach((s, i) => s.classList.toggle('active', i === slideIndex));
   dots.forEach((d, i)   => d.classList.toggle('active', i === slideIndex));
@@ -355,13 +327,8 @@ function showSlide(index) {
 
 function moveSlide(dir)  { showSlide(slideIndex + dir); resetAutoSlide(); }
 function currentSlide(i) { showSlide(i - 1); resetAutoSlide(); }
-
-function startAutoSlide() {
-  if (!document.querySelectorAll('.carousel-slide').length) return;
-  autoSlideInterval = setInterval(() => moveSlide(1), 5000);
-}
+function startAutoSlide() { if (document.querySelectorAll('.carousel-slide').length) autoSlideInterval = setInterval(() => moveSlide(1), 5000); }
 function resetAutoSlide() { clearInterval(autoSlideInterval); startAutoSlide(); }
-
 
 document.addEventListener('DOMContentLoaded', function () {
   initAccountPage();
@@ -371,8 +338,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (modal) { setTimeout(openModal, 1000); sessionStorage.setItem('schecterModalSeen', 'true'); }
   }
 
-  const slides = document.querySelectorAll('.carousel-slide');
-  if (slides.length) {
+  if (document.querySelectorAll('.carousel-slide').length) {
     showSlide(0);
     startAutoSlide();
     const carousel = document.querySelector('.carousel-container');
@@ -382,8 +348,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.1 }
+  );
   document.querySelectorAll('.featured, .reviews, .bio, .featured-videos').forEach(el => observer.observe(el));
 });
